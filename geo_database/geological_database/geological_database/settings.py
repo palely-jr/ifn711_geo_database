@@ -75,8 +75,14 @@ WSGI_APPLICATION = 'geological_database.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'CLIENT': {
+            "name": 'geologicalDb',
+            'host': 'mongodb+srv://jesse-studin:Be11a250319.....@cluster0.3lugg.mongodb.net/geologicalDb?retryWrites=true&w=majority',
+            "username": "jesse-studin",
+            "password": "Be11a250319.....",
+            "authMechanism": "SCRAM-SHA-1",
+        },
     }
 }
 
