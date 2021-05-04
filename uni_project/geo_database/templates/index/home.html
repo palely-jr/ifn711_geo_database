@@ -11,10 +11,43 @@
         <input type="submit" value="Sign Out">
     </form>
     <h1>Hello {{request.user.username}}</h1>
+    <h2>Search for an item</h2>
+    <form action="" method="GET">{% csrf_token %}
+              <!-- we need, name, dob, email and password!-->
+        <label for="search_term">Search: </label>
+        <input type="search" id="search_term" name="search_term" placeholder="Search for value" >
+        <input type="submit" value="Search">
+    </form>
     {% else %}
-    <h1>hello world</h1>
+    <h1>homepage</h1>
     <a href="/signin">sign in</a>
     <a href="/register">Register</a>
     {% endif %}
+    {% if search_term %}
+        <h1>{{search_term}}</h1>
+    {% endif %}
+    {% if user_items %}
+        <form action="/delete/files" method="POST">{% csrf_token %}
+            {% for item in user_items %}
+            <hr>
+            <input type="checkbox" id="item_checkbox" name="delete_files" value={{item.item_id}} >
+            <label for="item_checkbox">{{item.item_name}}</label>
+            <h1>file: {{item.item_file}}</h1>
+            <h1>End of current file</h1>
+            <br>
+            <br>
+            <hr>
+            {% endfor %}
+            <input type="submit" value="Delete files">
+        </form>
+    {% endif %}
+    <form action="/upload/file" method="POST" enctype="multipart/form-data">{% csrf_token %}
+          <!-- we need, name, dob, email and password!-->
+            <label for="filename">FileName: </label>
+            <input type="text" id="filename" name="filename">
+          <label for="file">Upload File:</label>
+          <input type="file" id="file" name="file">
+          <input type="submit" value="Submit form">
+      </form>
 </body>
 </html>
