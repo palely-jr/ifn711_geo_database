@@ -108,6 +108,10 @@ def register(request):
         return render(request, 'registration/registration.html', {})
 
 
+def dashboard(request):
+    print("came here")
+    return render(request, 'dashboard/index.html')
+
 
 def uploadItem(request):
     print("this is accessed")
