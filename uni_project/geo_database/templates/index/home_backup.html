@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+
+    {% if user.is_authenticated %}
+    <form action="/signout" method="POST">{% csrf_token %}
+        <input type="submit" value="Sign Out">
+    </form>
+    <h1>Hello {{request.user.username}}</h1>
+    {% else %}
+    <h1>hello world</h1>
+    <a href="/signin">sign in</a>
+    <a href="/register">Register</a>
+    {% endif %}
+</body>
+</html>

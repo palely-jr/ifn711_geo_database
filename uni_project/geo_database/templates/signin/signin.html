@@ -1,17 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>login</title>
-</head>
-<body>
-  <h1>Login</h1>
-  <p>{{invalid}}</p>
-  <form action="/signin" method="POST">{% csrf_token %}
-    <input type="username" id="username" name="username" placeholder="Enter username" value="jesse_studin">
-    <input type="password" id="password" name="password" placeholder="Enter password" value="123456789">
-    <input type="submit" value="Login">
-    <a href="/register">Register</a>
-  </form>
-</body>
+<html>
+<title>Orefox Login</title>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'login/login.css' %}">
+<style>
+
+
+button.ghost:hover {
+    background-color: #FC8800;
+}
+</style>
+<h2></h2>
+<div class="container" id="container">
+	<div class="form-container sign-up-container">
+		<form action="#">
+			<h1>Create Account</h1>
+			<div class="social-container">
+				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+			</div>
+			<span>or use your email for registration</span>
+			<input type="text" placeholder="Name" />
+			<input type="email" placeholder="Email" />
+			<input type="password" placeholder="Password" />
+			<button>Sign Up</button>
+		</form>
+	</div>
+	<div class="form-container sign-in-container">
+		<form action="/signin" method="POST">{% csrf_token %}
+			<h1>Log in</h1>
+			
+			<span></span>
+			<input type="username" id="username" name="username" placeholder="Enter username" value="abhi@gmail.com">
+			<input type="password" id="password" name="password" placeholder="Enter password" value="password">
+			<a href="#">Forgot your password?</a>
+			    <input  class="login-button" type="submit" value="Login">
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			{% load static %}
+			<div class="overlay-panel overlay-right">
+			<img  src="{% static 'images/OreFox_logo.png' %}" alt="HTML5 Icon" width="170" height="70";></a>
+			<p>Please Register your company and start your journey with us</p>
+				<button class="ghost" id="signUp"><a href="/register">Register</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer>
+
+</footer>
 </html>

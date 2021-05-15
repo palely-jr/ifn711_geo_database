@@ -1,53 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
+{% load static %}
 
-    {% if user.is_authenticated %}
-    <form action="/signout" method="POST">{% csrf_token %}
-        <input type="submit" value="Sign Out">
-    </form>
-    <h1>Hello {{request.user.username}}</h1>
-    <h2>Search for an item</h2>
-    <form action="" method="GET">{% csrf_token %}
-              <!-- we need, name, dob, email and password!-->
-        <label for="search_term">Search: </label>
-        <input type="search" id="search_term" name="search_term" placeholder="Search for value" >
-        <input type="submit" value="Search">
-    </form>
-    {% else %}
-    <h1>homepage</h1>
-    <a href="/signin">sign in</a>
-    <a href="/register">Register</a>
-    {% endif %}
-    {% if search_term %}
-        <h1>{{search_term}}</h1>
-    {% endif %}
-    {% if user_items %}
-        <form action="/delete/files" method="POST">{% csrf_token %}
-            {% for item in user_items %}
-            <hr>
-            <input type="checkbox" id="item_checkbox" name="delete_files" value={{item.item_id}} >
-            <label for="item_checkbox">{{item.item_name}}</label>
-            <h1>file: {{item.item_file}}</h1>
-            <h1>End of current file</h1>
-            <br>
-            <br>
-            <hr>
-            {% endfor %}
-            <input type="submit" value="Delete files">
-        </form>
-    {% endif %}
-    <form action="/upload/file" method="POST" enctype="multipart/form-data">{% csrf_token %}
-          <!-- we need, name, dob, email and password!-->
-            <label for="filename">FileName: </label>
-            <input type="text" id="filename" name="filename">
-          <label for="file">Upload File:</label>
-          <input type="file" id="file" name="file">
-          <input type="submit" value="Submit form">
-      </form>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Orefox</title>
+    <link rel="icon" type="image/x-icon"
+        href="{% static 'registration/vendor/mdi-font/css/material-design-iconic-font.min.css' %}assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'index/css/styles.css' %}" rel="stylesheet" />
+    <link href="{% static 'index/css/home.css' %}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+    <!-- Navigation-->
+    <!-- <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+            <div class="container">
+                
+                <a class="navbar-brand js-scroll-trigger" href="#page-top"></a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/signin">Login</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#signup">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav> -->
+
+    <nav class="navbar mt-0 mb-0 sticky-top pt-0 pb-0 navbar-expand-lg navbar-dark bg-black">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/OreFox_logo.png' %}" width="150" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signin">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#signup">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-link">
+                        <a href="#search">Search</a>
+                        <img src="{% static 'images/index/assets/img/search.png' %}">
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-link">
+                        <a href="#Profile">Profile</a>
+                        <img src="../../static/index/assets/img/profile.png">
+                    </div>
+                </li>
+
+            </ul>
+            <!-- <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <img src="../../static/index/assets/img/search.png" height="38px">
+            </form>
+             -->
+        </div>
+    </nav>
+
+    <!-- Masthead-->
+    <header class="masthead">
+        <div class="container d-flex h-100 align-items-left">
+            <div class="mx-auto text-left">
+                <h2>Are you getting the most from your geological data?</h2>
+                <p>G’day, we’re OreFox.</p>
+                <p> We provide artificial intelligence-based geological data analytics to mining and exploration
+                    companies.</p>
+                <br>
+                <h2>Mission</h2>
+                <p>Our mission is to put our clients at the centre of geological data science innovation, allowing them
+                    to make significant mineral deposit discoveries faster and mine more efficiently
+                    Using OreFox can be as easy as a three step process!</p>
+                <br>
+                <ol>
+                    <li>Upload your data</li>
+                    <li>Select the processes you want</li>
+                    <li>Press run!</li>
+                </ol>
+                <br>
+                <p>When the data has finished processing, you will receive
+                    your analysed data and reports</p>
+            </div>
+        </div>
+    </header>
+    <!-- About-->
+
+    <!-- Projects-->
+
+    <!-- Project Two Row-->
+
+    <!-- Signup-->
+
+    <!-- Contact-->
+
+    <!-- Footer-->
+    <footer class="footer bg-black small text-center text-white-50">
+        <div class="container">Copyright © Your Website 2020</div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="{% static 'index/js/scripts.js' %}"  ></script>
 </body>
+
 </html>

@@ -19,8 +19,7 @@ def home(request):
                 user_items = Items.objects.filter(user_id=user.pk, item_file__icontains=search)
                 return render(request, 'index/home.html', {'user_items': user_items})
         #need to get all items with user.id and then put in context and put into the frontend
-    user_items = Items.objects.all().filter(user_id=user.pk)
-    return render(request, 'index/home.html', {'user_items': user_items})
+    return render(request, 'index/home.html')
 
 
 def search(request):
