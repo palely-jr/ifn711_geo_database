@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import Items
 from django.core.mail import EmailMessage
 from django.urls import reverse
+from .form import DocumentForm
 
 
 
@@ -73,6 +74,10 @@ def deleteItem(request):
                 return HttpResponseRedirect(reverse('geo-home'))
         return HttpResponseRedirect(reverse('geo-home'))
     return HttpResponseRedirect(reverse('geo-signin'))
+
+def simpleUpload(request):
+    form = DocumentForm()
+    return render(request, 'simpleupload/list.html', {'form': form})
 
 # register user form
 def register(request):

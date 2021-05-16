@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Minimal Django File Upload Example</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th {
+            padding: 8px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+         tr:nth-child(even){background-color: #f2f2f2;}
+
+        tr:hover {background-color: #ddd;}
+        .upload {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        .download {
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            background-color: #008CBA;
+        }
+
+        .delete {
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            background-color: #f44336;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div style="padding:40px; margin:40px; border:1px solid #ccc">
+        <h1>Nancy Rathi Simple Project File Upload</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="upload">Upload</button>
+        </form>
+        <hr>
+
+        <table>
+            <tr>
+                <th>File</th>
+                <th>Date Created</th>
+                <th>Download</th>
+                <th>Delete</th>
+            </tr>
+            {% if documents %}
+            {% for document in documents %}
+            <tr>
+                <td><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></td>
+                <td><small>{{document.upload_date}}</small></td>
+                <td><a href="{{ document.docfile.url }}" download><button type="button"
+                            class="download">Download</button></a></td>
+               <!--Delete Button work notcompleted yet-->
+                <td><a href="{{ document.id }}"><button type="button" class="delete">Delete</button></a></td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <p>No documents.</p>
+            {% endif %}
+        </table>
+        </ul>
+    </div>
+
+</body>
+
+</html>
