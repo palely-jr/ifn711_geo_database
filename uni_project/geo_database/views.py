@@ -1,3 +1,4 @@
+from django.http.response import FileResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -128,6 +129,29 @@ def dashboard(request):
     else:
        return render(request,'signin/signin.html')
 
+def filestoragealoc(request):
+    if request.user.is_authenticated:
+        #pulling file details
+        fileDetails=fileStorage.objects.all()
+        print(fileDetails)
+        if request.method == 'POST':
+         username = request.POST['userid']
+         size = request.POST['size']
+         print(username,"",size)
+         fileDetail = fileStorage.objects.get(user=username)
+         if fileDetail:
+             print("came here after that")
+             fileDetail.total_file_size = size
+             fileDetail.save()
+             return HttpResponseRedirect(reverse('geo-filestoragealoc'))
+            # throw error
+         else:
+            return render(request, 'signin/signin.html', {
+                'invalid': 'Please Input Valid Login'
+            })
+        return render(request, 'filestorage/index.html',{'filedetails': fileDetails})
+    else:
+       return render(request,'signin/signin.html')
 
 def uploadItem(request):
     print("this is accessed")
