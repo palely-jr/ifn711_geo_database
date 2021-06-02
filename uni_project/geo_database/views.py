@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Items
+from .models import Items,fileStorage
 from django.core.mail import EmailMessage
 from django.urls import reverse
 
@@ -19,8 +19,7 @@ def home(request):
                 user_items = Items.objects.filter(user_id=user.pk, item_file__icontains=search)
                 return render(request, 'index/home.html', {'user_items': user_items})
         #need to get all items with user.id and then put in context and put into the frontend
-    user_items = Items.objects.all().filter(user_id=user.pk)
-    return render(request, 'index/home.html', {'user_items': user_items})
+    return render(request, 'index/home.html')
 
 
 def search(request):
@@ -33,7 +32,7 @@ def search(request):
 def signin(request):
     #use this to authenticate each request made
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('geo-dashboard')
     #this to post
     if request.method == 'POST':
         username = request.POST['username']
@@ -43,10 +42,9 @@ def signin(request):
         print("this is something", user_account)
         #check if user is authenticated
         if user_account:
-            print("accessed")
             if user_account.is_active:
-                login(request, user_account)
-                return HttpResponseRedirect(reverse('geo-home'))
+                 login(request, user_account)
+                 return HttpResponseRedirect(reverse('geo-dashboard'))
             # throw error
             else:
                 return render(request, 'signin/signin.html', {
@@ -93,7 +91,9 @@ def register(request):
         #i just found it more readable
         #store them as a user, in mysql auth_user is the best user table for us
         user = User.objects.create_user(username=username, first_name=name, email=email, password=password, )
-        #save it to db
+        file_storage=fileStorage.objects.create_fileStorage(total_file_size="250",used_file_size="0",remaining_file_size="250",user_id=user.pk)
+      #save it to db
+        file_storage.save()
         user.is_active = True
         verify_email = EmailMessage(
             'Email header',
@@ -108,6 +108,27 @@ def register(request):
 
         return render(request, 'registration/registration.html', {})
 
+
+def dashboard(request):
+    print("this is touched")
+    if request.user.is_authenticated:
+     if request.user.is_superuser:
+      print("came here")
+      username = request.user.username
+      user = User.objects.get(username=username)
+      file_storage=fileStorage.objects.create_fileStorage(total_file_size="200",used_file_size="45",remaining_file_size="60",user_id=user.pk)
+      #save it to db
+      #file_storage.save()
+      return render(request, 'dashboard/admin/index.html',{'user_items': username})
+     else:
+      username = request.user.username
+      user = User.objects.get(username=username)
+      print(user.pk)
+      fileDetails=fileStorage.objects.get(user=user.pk)
+      print(fileDetails.total_file_size);
+     return render(request, 'dashboard/index.html',{'user_name': user.first_name,'total_file_size': fileDetails.total_file_size,'used_file_size': fileDetails.used_file_size,'remaining_file_size': fileDetails.remaining_file_size})
+    else:
+       return render(request,'signin/signin.html')
 
 
 def uploadItem(request):
