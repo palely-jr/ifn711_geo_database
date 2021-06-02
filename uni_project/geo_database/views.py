@@ -91,6 +91,7 @@ def register(request):
         #i just found it more readable
         #store them as a user, in mysql auth_user is the best user table for us
         user = User.objects.create_user(username=username, first_name=name, email=email, password=password, )
+       #creating a file storage for new user
         file_storage=fileStorage.objects.create_fileStorage(total_file_size="250",used_file_size="0",remaining_file_size="250",user_id=user.pk)
       #save it to db
         file_storage.save()
@@ -113,17 +114,14 @@ def dashboard(request):
     print("this is touched")
     if request.user.is_authenticated:
      if request.user.is_superuser:
-      print("came here")
       username = request.user.username
       user = User.objects.get(username=username)
-      file_storage=fileStorage.objects.create_fileStorage(total_file_size="200",used_file_size="45",remaining_file_size="60",user_id=user.pk)
-      #save it to db
-      #file_storage.save()
       return render(request, 'dashboard/admin/index.html',{'user_items': username})
      else:
       username = request.user.username
       user = User.objects.get(username=username)
       print(user.pk)
+      #pulling file details
       fileDetails=fileStorage.objects.get(user=user.pk)
       print(fileDetails.total_file_size);
      return render(request, 'dashboard/index.html',{'user_name': user.first_name,'total_file_size': fileDetails.total_file_size,'used_file_size': fileDetails.used_file_size,'remaining_file_size': fileDetails.remaining_file_size})
