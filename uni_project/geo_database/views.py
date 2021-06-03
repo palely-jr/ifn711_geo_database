@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Items,fileStorage
+from .models import Items,fileStorage,Company
 from django.core.mail import EmailMessage
 from django.urls import reverse
 
@@ -90,12 +90,18 @@ def register(request):
         password = request.POST['passwordOne']
         #you dont need to put each POST form element into a variable
         #i just found it more readable
+        checkCompany= Company.objects.all();
+        if checkCompany:
+           print("Defualt Company Created")       
+        else:
+         company=Company.objects.create_Company(company_name="Default",company_email="default@gmail.com",company_type="Row Data")
+         company.save()
+        #save it to db
+        
         #store them as a user, in mysql auth_user is the best user table for us
-        user = User.objects.create_user(username=username, first_name=name, email=email, password=password, )
+        user = User.objects.create_user(username=username, first_name=name, email=email, password=password,last_name="1" )
        #creating a file storage for new user
-        file_storage=fileStorage.objects.create_fileStorage(total_file_size="250",used_file_size="0",remaining_file_size="250",user_id=user.pk)
-      #save it to db
-        file_storage.save()
+       
         user.is_active = True
         verify_email = EmailMessage(
             'Email header',
@@ -123,7 +129,7 @@ def dashboard(request):
       user = User.objects.get(username=username)
       print(user.pk)
       #pulling file details
-      fileDetails=fileStorage.objects.get(user=user.pk)
+      fileDetails=fileStorage.objects.get(user=user.last_name)
       print(fileDetails.total_file_size);
      return render(request, 'dashboard/index.html',{'user_name': user.first_name,'total_file_size': fileDetails.total_file_size,'used_file_size': fileDetails.used_file_size,'remaining_file_size': fileDetails.remaining_file_size})
     else:
@@ -133,22 +139,31 @@ def filestoragealoc(request):
     if request.user.is_authenticated:
         #pulling file details
         fileDetails=fileStorage.objects.all()
-        print(fileDetails)
+        usersid=[]
+        for userId in fileDetails:
+             usersid.append(userId.company_id)
+             #print("this is",usersid)
+        
+        print("this is",usersid)
         if request.method == 'POST':
          username = request.POST['userid']
          size = request.POST['size']
-         print(username,"",size)
-         fileDetail = fileStorage.objects.get(user=username)
-         if fileDetail:
-             print("came here after that")
-             fileDetail.total_file_size = size
-             fileDetail.save()
-             return HttpResponseRedirect(reverse('geo-filestoragealoc'))
-            # throw error
-         else:
+         print(username)
+         userId_exists = usersid.count((username))  
+         print(userId_exists)
+         if userId_exists > 0:
+          print("came here")
+          fileDetail = fileStorage.objects.get(company_id=username)
+          if fileDetail:
+            print("came here again")
+            fileDetail.total_file_size = size
+            fileDetail.save()
+            return HttpResponseRedirect(reverse('geo-filestoragealoc'))
+             # throw error
+          else:
             return render(request, 'signin/signin.html', {
-                'invalid': 'Please Input Valid Login'
-            })
+                          'invalid': 'Please Input Valid Login'
+              })
         return render(request, 'filestorage/index.html',{'filedetails': fileDetails})
     else:
        return render(request,'signin/signin.html')
@@ -171,3 +186,18 @@ def signout(request):
     if request.user.is_authenticated:
         logout(request)
         return HttpResponseRedirect(reverse('geo-signin'))
+
+
+def company(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+         companyName = request.POST['name']
+         companyEmail = request.POST['email']
+         companyType = request.POST['type']
+         company=Company.objects.create_Company(company_name=companyName,company_email=companyEmail,company_type=companyType)
+         company.save()
+         filestore=fileStorage.objects.create_fileStorage(total_file_size="250", used_file_size="0", remaining_file_size="0",company_id=company.pk,company_name=company.company_name)
+         return HttpResponseRedirect(reverse('geo-dashboard'))
+            # throw error
+    return render(request, 'company/index.html',{})
+

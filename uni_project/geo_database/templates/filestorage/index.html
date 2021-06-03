@@ -42,7 +42,8 @@
                 <table class="table table-striped table-dark">
                     <thead>
                       <tr>
-                        <th scope="col">User ID</th>
+                        <th scope="col">Company ID</th>
+                        <th scope="col">Company Name</th>
                         <th scope="col">Total File Size</th>
                         <th scope="col">Used File Size</th>
                         <th scope="col">Remaining File Size</th>
@@ -51,7 +52,8 @@
                     <tbody>
                         {% for column in filedetails %}
                       <tr>
-                        <th scope="row">{{column.user_id}}</th>
+                        <th scope="row">{{column.company_id}}</th>
+                        <th scope="row">{{column.company_name}}</th>
                         <td>{{column.total_file_size}}</td>
                         <td>{{column.used_file_size}}</td>
                         <td>{{column.remaining_file_size}}</td>
@@ -63,12 +65,16 @@
 
 
                   <form action="/filestoragealoc" method="POST">{% csrf_token %}
+                 
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text">User ID</span>
                       </div>
+                    
                       <input type="text" class="form-control" placeholder="UserID" id="userid" name="userid">
                     </div>
+
+
                 
                     <div class="input-group mb-3">
                         <span class="input-group-text">Total Storage Allocated in Giga Bytes</span>
