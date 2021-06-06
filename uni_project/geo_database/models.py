@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class StorageManager(models.Manager):
-    def create_fileStorage(self, total_file_size, used_file_size, remaining_file_size,company_id,company_name):
+    def create_fileStorage(self, total_file_size, used_file_size, remaining_file_size, company_id, company_name):
         item = self.create(total_file_size=total_file_size, used_file_size=used_file_size, remaining_file_size=remaining_file_size,company_id=company_id,company_name=company_name)
         return item
 
@@ -40,19 +40,48 @@ class Company(models.Model):
     
 
 class ItemsManager(models.Manager):
-    def create_item(self, item_file, item_name, user_id):
-        item = self.create(item_file=item_file, item_name=item_name, user_id=user_id)
+    def create_item(self, item_file, item_name, item_long, item_lat, user_id):
+        item = self.create(item_file=item_file, item_name=item_name, item_long=item_long, item_lat=item_lat, user_id=user_id)
         return item
 
 class Items(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=False)
+    user = models.ForeignKey(Company, on_delete=models.CASCADE, unique=False)
     item_id = models.AutoField(primary_key=True)
     item_name = models.CharField(max_length=200)
     item_file = models.FileField()
+    item_long = models.FloatField()
+    item_lat = models.FloatField()
 
-    class Meta():
+    class Meta:
         db_table = "account_items"
 
     objects = ItemsManager()
+
+class SharedItems(models.Model):
+    item = models.ForeignKey(Items, on_delete=models.CASCADE, unique=False)
+    company_current = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name="company_current",
+        unique=False,
+        db_column="company_current"
+    )
+    company_shared = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        unique=False,
+        related_name="company_shared",
+        db_column="company_shared"
+    )
+
+    class Meta:
+        db_table = "shared_files"
+
+
+class SharedItemsManager(models.Manager):
+    def create_shared_item(self, item, company_current, company_shared):
+        shared_item = self.create(item=item, company_current=company_current, company_shared=company_shared)
+        return shared_item
+
 
 #end items section

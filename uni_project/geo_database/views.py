@@ -103,11 +103,6 @@ def register(request):
        #creating a file storage for new user
        
         user.is_active = True
-        verify_email = EmailMessage(
-            'Email header',
-            'test body',
-            
-        )
         user.save()
         #redirect back to signin page, check geo_database.urls to see the names (im using a geo-xxx ..
         # naming convention)

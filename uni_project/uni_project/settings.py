@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'geo_database',
-    'django_email_verification',
 ]
 
 MIDDLEWARE = [
