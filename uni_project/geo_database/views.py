@@ -196,3 +196,6 @@ def company(request):
             # throw error
     return render(request, 'company/index.html',{})
 
+
+def playground(request):
+    return render(request, 'playground/index.html')

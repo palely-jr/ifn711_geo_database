@@ -4,12 +4,16 @@
    {% block content %}
 <head>
    <title>Orefox Admin Dashboard</title>
+
    <!-- HTML5 Shim and Respond.js IE9 support of HTML5 elements and media queries -->
    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
    <!--[if lt IE 9]>
      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
      <![endif]-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
 
    <meta charset="utf-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -658,6 +662,7 @@
          </div>
       </div>
    </div>
+    <div id="mapid"></div>
 
 
    <!-- Warning Section Starts -->
@@ -742,6 +747,10 @@
    <script type="text/javascript" src="{% static 'dashboard/assets/pages/dashboard.js' %}" ></script>
    <script type="text/javascript" src="{% static 'dashboard/assets/pages/elements.js' %}" ></script>
    <script src="{% static 'dashboard/assets/pages/elements.js' %}" ></script>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
 <script>
 var $window = $(window);
 var nav = $('.fixed-button');
