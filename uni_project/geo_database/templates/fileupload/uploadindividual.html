@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Single File</title>
+</head>
+<body>
+  {{success}}
+  <form action="/upload/file" method="POST">{% csrf_token %}
+    <!-- upload stuff here -->
+    <input type="file" id="file" name="file"/>
+    <input type="submit" value="submit file"/>
+  </form>
+</body>
+</html>

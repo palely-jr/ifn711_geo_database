@@ -8,6 +8,7 @@ urlpatterns = [
     path('signout', views.signout, name='geo-signout'),
     path('dashboard', views.dashboard, name="geo-dashboard"),
     path('upload/file', views.uploadItem, name='geo-uploadItem'),
+    # path('upload/files', views.uploadItems, name='geo-uploadItem'),
     path('delete/files', views.deleteItem, name='geo-deleteFiles'),
     path('filestoragealoc', views.filestoragealoc, name='geo-filestoragealoc'),
     path('company', views.company, name='geo-company'),

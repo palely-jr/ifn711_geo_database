@@ -203,7 +203,7 @@ def uploadItem(request):
 
             new_item.save()
             return HttpResponseRedirect(reverse('geo-home'))
-        return HttpResponseRedirect(reverse('geo-home'))
+        return render(request, 'fileupload/uploadindividual.html', {"success": "upload file"})
     return HttpResponseRedirect(reverse('geo-signin'))
 
 #signs out user, pre simple
