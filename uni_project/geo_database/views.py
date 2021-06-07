@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from .models import Items, fileStorage, Company, UserCompanyRelationship
 from django.core.mail import EmailMessage
 from django.urls import reverse
+from .viewsmethods import geolocater
 
 
 # basic homepage --> needs to be done
@@ -177,15 +178,23 @@ def dashboard(request):
             #company name, employee name
             companyDetails = [companyInformation.company_name, user.first_name]
 
+            #obtain all items associated with company id and user ..
+            items = Items.objects.all().filter(company_id=company.company_id)
+
+
+            geolocater.reverse_locate(items[0].item_lat, items[0].item_long)
+
             # create a list for filedetails
 
         # information that needs to be passed over to the front end
         # file details
         # company information
-        return render(request, 'dashboard/index.html', {'user_name': user.first_name, "file_details": listFileDetails, "company_details": companyDetails})
+        return render(request, 'dashboard/index.html', {'user_name': user.first_name, "file_details": listFileDetails, "company_details": companyDetails, "items": items})
     else:
         return render(request, 'signin/signin.html')
 
+
+#use this for getting geolocation
 
 def filestoragealoc(request):
     if request.user.is_authenticated:
@@ -235,16 +244,22 @@ def uploadItem(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             # need to recheck this to the
-            uploaded_file = request.FILES['file']
+            uploaded_file = request.FILES['myFile']
+            print("\n\n\n\n")
+            print(uploaded_file.size)
+            print("\n\n\n\n")
             file_name = request.POST['filename']
             username = request.user.username
+            print(username)
             user = User.objects.get(username=username)
-            user_company = UserCompanyRelationship.objects.get(user.pk)
-
-            new_item = Items.objects.create_item(uploaded_file, file_name, user_company.company_id)
-
+            print(user.pk)
+            user_company = UserCompanyRelationship.objects.get(user_id=user.pk)
+            company = Company.objects.get(id=user_company.company_id)
+            longitude = 27.4705
+            latitude = 153.0260
+            new_item = Items.objects.create_item(item_file=uploaded_file, item_name=file_name, company_id=company, item_long=longitude, item_lat=latitude)
             new_item.save()
-            return HttpResponseRedirect(reverse('geo-home'))
+            return HttpResponseRedirect(reverse('geo-dashboard'))
         return render(request, 'fileupload/uploadindividual.html', {"success": "upload file"})
     return HttpResponseRedirect(reverse('geo-signin'))
 
