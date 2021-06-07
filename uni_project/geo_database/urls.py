@@ -11,5 +11,6 @@ urlpatterns = [
     path('delete/files', views.deleteItem, name='geo-deleteFiles'),
     path('filestoragealoc', views.filestoragealoc, name='geo-filestoragealoc'),
     path('company', views.company, name='geo-company'),
-    path('playground', views.playground, name='geo-playground')
+    path('playground', views.playground, name='geo-playground'),
+    path('companyregistration', views.companyregistration, name='geo-orgRegistration')
 ]

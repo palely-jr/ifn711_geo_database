@@ -2,50 +2,68 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class StorageManager(models.Manager):
-    def create_fileStorage(self, total_file_size, used_file_size, remaining_file_size, company_id, company_name):
-        item = self.create(total_file_size=total_file_size, used_file_size=used_file_size, remaining_file_size=remaining_file_size,company_id=company_id,company_name=company_name)
-        return item
 
-class fileStorage(models.Model):
-    id = models.AutoField(primary_key=True)
-    company_name = models.CharField(max_length=200,default="default")
-    total_file_size = models.CharField(max_length=200)
-    used_file_size = models.CharField(max_length=200)
-    remaining_file_size = models.CharField(max_length=200)
-    company_id=models.CharField(max_length=200,default="1")
-    class Meta():
-        db_table = "file_storage"
-
-    objects = StorageManager()
 
 
 
 
 class CompanyManager(models.Manager):
-    def create_Company(self, company_name, company_email, company_type):
-        company = self.create(company_name=company_name, company_email=company_email, company_type=company_type)
+    def create_Company(self, company_name, company_email):
+        company = self.create(company_name=company_name, company_email=company_email)
         return company
+    def check_company(self, company_name):
+        if company_name==company_name:
+            return True
+        else:
+            return False
+
+    def get_id(self, company_name):
+        if company_name == company_name:
+            return id
+        else:
+            return False
+
 
 class Company(models.Model):
     id = models.AutoField(primary_key=True)
     company_name = models.CharField(max_length=200)
     company_email = models.CharField(max_length=200)
-    company_type = models.CharField(max_length=200)
     class Meta():
         db_table = "company_details"
 
     objects = CompanyManager()
     
-    
+
+class FileStorageManager(models.Manager):
+    def create_initial_storage(self, total_file_size, used_file_size, company_id):
+        remaining_size = total_file_size - used_file_size
+        storage = self.create(total_file_size=total_file_size,
+                              used_file_size=0,
+                              remaining_file_size=remaining_size,
+                              company=company_id)
+        return storage
+
+class fileStorage(models.Model):
+    id = models.AutoField(primary_key=True)
+    total_file_size = models.CharField(max_length=200)
+    used_file_size = models.CharField(max_length=200)
+    remaining_file_size = models.CharField(max_length=200)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, unique=False)
+
+    class Meta():
+        db_table = "file_storage"
+
+    objects = FileStorageManager()
+
+
 
 class ItemsManager(models.Manager):
-    def create_item(self, item_file, item_name, item_long, item_lat, user_id):
-        item = self.create(item_file=item_file, item_name=item_name, item_long=item_long, item_lat=item_lat, user_id=user_id)
+    def create_item(self, item_file, item_name, item_long, item_lat, company_id):
+        item = self.create(item_file=item_file, item_name=item_name, item_long=item_long, item_lat=item_lat, company=company_id)
         return item
 
 class Items(models.Model):
-    user = models.ForeignKey(Company, on_delete=models.CASCADE, unique=False)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, unique=False)
     item_id = models.AutoField(primary_key=True)
     item_name = models.CharField(max_length=200)
     item_file = models.FileField()
@@ -76,6 +94,31 @@ class SharedItems(models.Model):
 
     class Meta:
         db_table = "shared_files"
+
+
+class CompanyUserManager(models.Manager):
+    def get_company_id(self, company_id, user_id):
+        if company_id == company_id and user_id == user_id:
+            return company_id
+        else:
+            return False
+
+    def create_relationship(self, company_id, user_id):
+        relationship = self.create(company=company_id, user_id=user_id)
+        return relationship
+
+
+
+#this creates the relationship
+class UserCompanyRelationship(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=False)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, unique=False)
+
+    class Meta:
+        db_table = "Company_User_Relationship"
+
+    objects = CompanyUserManager()
+
 
 
 class SharedItemsManager(models.Manager):

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Items,fileStorage,Company
+from .models import Items, fileStorage, Company, UserCompanyRelationship
 from django.core.mail import EmailMessage
 from django.urls import reverse
 
@@ -75,6 +75,19 @@ def deleteItem(request):
     return HttpResponseRedirect(reverse('geo-signin'))
 
 # register user form
+def companyregistration(request):
+    #no user needs to be logged in
+    if request.method == 'POST':
+        #do some data stuff
+        orgName = request.POST['organisation_name']
+        orgEmail = request.POST['organisation_email']
+        company = Company.objects.create_Company(company_name=orgName, company_email=orgEmail)
+        company.save()
+        return HttpResponseRedirect(reverse('geo-playground'))
+    else:
+        return render(request, 'company_registration/CompanyRegistration.html', {})
+
+## we
 def register(request):
     print("this is touched")
     if request.user.is_authenticated:
@@ -90,26 +103,35 @@ def register(request):
         password = request.POST['passwordOne']
         #you dont need to put each POST form element into a variable
         #i just found it more readable
-        checkCompany= Company.objects.all();
-        if checkCompany:
-           print("Defualt Company Created")       
-        else:
-         company=Company.objects.create_Company(company_name="Default",company_email="default@gmail.com",company_type="Row Data")
-         company.save()
-        #save it to db
-        
-        #store them as a user, in mysql auth_user is the best user table for us
-        user = User.objects.create_user(username=username, first_name=name, email=email, password=password,last_name="1" )
-       #creating a file storage for new user
-       
-        user.is_active = True
-        user.save()
-        #redirect back to signin page, check geo_database.urls to see the names (im using a geo-xxx ..
-        # naming convention)
-        return HttpResponseRedirect(reverse('geo-signin'))
-    else:
+        # ----------------
+        # so want to check that the organisation exists, if so can add otherwise, dont
+        orgName = request.POST['Organisation']
+        #check for the company existence
+        company_exists = Company.objects.check_company(orgName)
+        if(company_exists):
+            #store them as a user, in mysql auth_user is the best user table for us
+            user = User.objects.create_user(username=username, first_name=name, email=email, password=password,  last_name="1" )       #creating a file storage for new user
 
-        return render(request, 'registration/registration.html', {})
+            user.is_active = True
+            user.save()
+            company_id = Company.objects.get(company_name=orgName)
+            newUser = User.objects.get(username=username)
+            print("company id is: ", company_id.id)
+
+            #also need to create the relationship between company and user
+            company_user = UserCompanyRelationship.objects.create_relationship(company_id=company_id, user_id=newUser.pk)
+            company_user.save()
+            #want to setup the filestorageallocation
+            i_file_store = fileStorage.objects.create_initial_storage(250, 0, company_id=company_id)
+
+
+            i_file_store.save()
+
+            #redirect back to signin page, check geo_database.urls to see the names (im using a geo-xxx ..
+            # naming convention)
+            return HttpResponseRedirect(reverse('geo-signin'))
+    else:
+        return render(request, 'registration/registration.html', {"failure": "something went wrong"})
 
 
 def dashboard(request):
@@ -124,7 +146,10 @@ def dashboard(request):
       user = User.objects.get(username=username)
       print(user.pk)
       #pulling file details
-      fileDetails=fileStorage.objects.get(user=user.last_name)
+      #get the company id in the relationship table
+      company = UserCompanyRelationship.objects.get(user_id=user.pk)
+      #then find the releveant file details
+      fileDetails=fileStorage.objects.get(company_id=company.company_id)
       print(fileDetails.total_file_size);
      return render(request, 'dashboard/index.html',{'user_name': user.first_name,'total_file_size': fileDetails.total_file_size,'used_file_size': fileDetails.used_file_size,'remaining_file_size': fileDetails.remaining_file_size})
     else:
@@ -167,11 +192,16 @@ def uploadItem(request):
     print("this is accessed")
     if request.user.is_authenticated:
         if request.method == 'POST':
+            #need to recheck this to the
             uploaded_file = request.FILES['file']
             file_name = request.POST['filename']
             username = request.user.username
             user = User.objects.get(username=username)
-            new_item = Items.objects.create_item(uploaded_file, file_name, user.pk)
+            user_company = UserCompanyRelationship.objects.get(user.pk)
+
+            new_item = Items.objects.create_item(uploaded_file, file_name, user_company.company_id)
+
+            new_item.save()
             return HttpResponseRedirect(reverse('geo-home'))
         return HttpResponseRedirect(reverse('geo-home'))
     return HttpResponseRedirect(reverse('geo-signin'))
@@ -196,6 +226,10 @@ def company(request):
             # throw error
     return render(request, 'company/index.html',{})
 
-
 def playground(request):
-    return render(request, 'playground/index.html')
+    user = User.objects.get(username="jesse_studin")
+    company = Company.objects.get(company_name="orefox")
+    user_company_name = UserCompanyRelationship.objects.get(user_id=user.pk)
+    print(user_company_name.company_id)
+
+    return render(request, 'playground/index.html', {'company': user_company_name})
