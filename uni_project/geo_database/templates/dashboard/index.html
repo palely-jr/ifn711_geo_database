@@ -478,7 +478,7 @@
                <div class="col-lg-3 col-md-6">
                   <div class="card dashboard-product">
                      <span>Total Memory Available</span>
-                     <h2 class="dashboard-total-products">{{total_file_size}} Gb</h2>
+                     <h2 class="dashboard-total-products">{{file_details.0}} Gb</h2>
                      <span class="label label-primary">Giga Bytes</span>Up To Date
                      <div class="side-box ">
                         <i class="ti-gift text-primary-color"></i>
@@ -488,7 +488,7 @@
                <div class="col-lg-3 col-md-6">
                   <div class="card dashboard-product">
                      <span>Total Memory Used</span>
-                     <h2 class="dashboard-total-products"><span>{{used_file_size}} Gb</span></h2>
+                     <h2 class="dashboard-total-products"><span>{{file_details.1}} Gb</span></h2>
                      <span class="label label-success">Giga Bytes</span>Upto Date
                      <div class="side-box">
                         <i class="ti-direction-alt text-success-color"></i>
@@ -498,7 +498,7 @@
                <div class="col-lg-3 col-md-6">
                   <div class="card dashboard-product">
                      <span>Remaining Memory Avaialble</span>
-                     <h2 class="dashboard-total-products"><span>{{remaining_file_size}} Gb</span></h2>
+                     <h2 class="dashboard-total-products"><span>{{file_details.2}} Gb</span></h2>
                      <span class="label label-danger">Giga Bytes</span>Upto Date
                      <div class="side-box">
                         <i class="ti-rocket text-danger-color"></i>
@@ -515,8 +515,8 @@
                   <div class="card">
                      <div class="user-block-2">
                         <img class="img-fluid" src="{% static 'images/riotinto.png' %}" alt="user-header">
-                        <h5>Rio Tinto</h5>
-                        <h6>Software Engineer</h6>
+                        <h5>{{company_details.0}}</h5>
+                        <h6>{{company_details.1}}</h6>
                      </div>
                      <div class="card-block">
                         <div class="user-block-2-activities">

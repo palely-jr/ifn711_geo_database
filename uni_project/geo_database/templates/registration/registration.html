@@ -46,7 +46,7 @@
                                 <div class="row row-space">
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="name">
+                                            <input class="input--style-5" type="text" name="name" value="Jesse Studin">
                                             <label class="label--desc">Please enter your name and last name</label>
                                         </div>
                                     </div>
@@ -61,7 +61,7 @@
                                         <select name="Organisation">
                                             <option disabled="disabled" selected="selected">Choose option</option>
                                             {% for column in company_names %}
-                                            <option>{{column}}</option>
+                                            <option value={{column}}>{{column}}</option>
                                             {% endfor %}
                                         </select>
                                         <div class="select-dropdown"></div>
@@ -75,7 +75,7 @@
                             <div class="name">Employee's Email</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <input class="input--style-5" input type="text" id="username" name="username" placeholder="Enter Username" autofocus>
+                                    <input class="input--style-5" input type="text" id="username" name="username" placeholder="Enter Username" autofocus value="jesse_studin@orefox.com">
                                 </div>
                             </div>
                         </div>
@@ -86,7 +86,7 @@
                                 <div class="row row-refine">
                                   <div class="col-9">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" input type="password" id="passwordOne" name="passwordOne" placeholder="Enter Password">
+                                            <input class="input--style-5" input type="password" id="passwordOne" name="passwordOne" placeholder="Enter Password" value="password">
                                             <label class="label--desc">Password</label>
                                         </div>
                                     </div>
