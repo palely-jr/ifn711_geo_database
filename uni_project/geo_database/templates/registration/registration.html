@@ -57,46 +57,29 @@
                             <div class="name">Organisation's Name</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Organisation">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="Organisation">
+                                            <option disabled="disabled" selected="selected">Choose option</option>
+                                            {% for column in company_names %}
+                                            <option>{{column}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
+        
                         <div class="form-row">
-                            <div class="name">Organisational Email</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="email" id="email"  name="email">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Employee's Username</div>
+                            <div class="name">Employee's Email</div>
                             <div class="value">
                                 <div class="input-group">
                                     <input class="input--style-5" input type="text" id="username" name="username" placeholder="Enter Username" autofocus>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row m-b-55">
-                            <div class="name">Phone Number</div>
-                            <div class="value">
-                                <div class="row row-refine">
-                                    <div class="col-3">
-                                        <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="area_code">
-                                            <label class="label--desc">Area Code</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-9">
-                                        <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="phone">
-                                            <label class="label--desc">Phone Number</label>
-                                        </div>
-                                    </div>
-                                   
-                                </div>
-                            </div>
-                        </div>
+              
                         <div class="form-row m-b-55">
                             <div class="name">Password</div>
                             <div class="value">
@@ -111,49 +94,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row m-b-55">
-                            <div class="name">Date of Birth</div>
-                            <div class="value">
-                                <div class="row row-refine">
-                                  <div class="col-9">
-                                        <div class="input-group-desc">
-                                            <input class="input--style-5" type="date" id="dob" name="dob" placeholder="Enter dob">
-                                            <label class="label--desc">Please select your date of birth</label>
-                                        </div>
-                                    </div>
-                                   
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Subject</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select--no-search">
-                                        <select name="subject">
-                                            <option disabled="disabled" selected="selected">Choose option</option>
-                                            <option>Subject 1</option>
-                                            <option>Subject 2</option>
-                                            <option>Subject 3</option>
-                                        </select>
-                                        <div class="select-dropdown"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row p-t-20">
-                            <label class="label label--block">Are you an existing customer?</label>
-                            <div class="p-t-15">
-                                <label class="radio-container m-r-55">Yes
-                                    <input type="radio" checked="checked" name="exist">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="radio-container">No
-                                    <input type="radio" name="exist">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div>
+                
                         <div>
                             <button class="btn btn--radius-2 btn--red" type="submit">Register</button>
                         </div>

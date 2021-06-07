@@ -89,28 +89,36 @@ def companyregistration(request):
 
 ## we
 def register(request):
-    print("this is touched")
-    if request.user.is_authenticated:
-        return redirect('/')
+
+    companyDetails=Company.objects.all()
+    companyNames=[]
+    for companyId in companyDetails:
+        companyNames.append(companyId.company_name)
+    
+    print(companyNames)
+
+
+
     if request.method == 'POST':
         # data cleaning
         #assignment
         username = request.POST['username']
         name = request.POST['name']
-        email = request.POST['email']
-        dob = request.POST['dob']
         #end assignment
         password = request.POST['passwordOne']
         #you dont need to put each POST form element into a variable
         #i just found it more readable
         # ----------------
         # so want to check that the organisation exists, if so can add otherwise, dont
+        
+
+
         orgName = request.POST['Organisation']
         #check for the company existence
         company_exists = Company.objects.check_company(orgName)
         if(company_exists):
             #store them as a user, in mysql auth_user is the best user table for us
-            user = User.objects.create_user(username=username, first_name=name, email=email, password=password,  last_name="1" )       #creating a file storage for new user
+            user = User.objects.create_user(username=username, first_name=name, email=username, password=password,  last_name="1" )       #creating a file storage for new user
 
             user.is_active = True
             user.save()
@@ -122,16 +130,24 @@ def register(request):
             company_user = UserCompanyRelationship.objects.create_relationship(company_id=company_id, user_id=newUser.pk)
             company_user.save()
             #want to setup the filestorageallocation
-            i_file_store = fileStorage.objects.create_initial_storage(250, 0, company_id=company_id)
+            
+            fileStorageExist=fileStorage.objects.filter(company_id=company_id);
 
+            if fileStorageExist:
+             print("Storage already allocated")           
+            else:
+             i_file_store = fileStorage.objects.create_initial_storage(250, 0, company_id=company_id,company_name=orgName)
+             i_file_store.save()
 
-            i_file_store.save()
+            
 
             #redirect back to signin page, check geo_database.urls to see the names (im using a geo-xxx ..
             # naming convention)
             return HttpResponseRedirect(reverse('geo-signin'))
     else:
-        return render(request, 'registration/registration.html', {"failure": "something went wrong"})
+        #user = User.objects.create_user(username="warwick@orefox.com", first_name="Warwick Anderson", email="warwick@orefox.com", password="password",  last_name="1",is_superuser="1")       #creating a file storage for new admin user
+        #user.save();
+        return render(request, 'registration/registration.html',{"company_names": companyNames})
 
 
 def dashboard(request):
@@ -159,31 +175,41 @@ def filestoragealoc(request):
     if request.user.is_authenticated:
         #pulling file details
         fileDetails=fileStorage.objects.all()
-        usersid=[]
-        for userId in fileDetails:
-             usersid.append(userId.company_id)
-             #print("this is",usersid)
-        
-        print("this is",usersid)
+        companyIds=[]
+        for companyId in fileDetails:
+             companyIds.append(int(companyId.company_id))
+             
+        print("this is",companyIds)
         if request.method == 'POST':
-         username = request.POST['userid']
+         company_id = request.POST['userid']
          size = request.POST['size']
-         print(username)
-         userId_exists = usersid.count((username))  
-         print(userId_exists)
-         if userId_exists > 0:
-          print("came here")
-          fileDetail = fileStorage.objects.get(company_id=username)
-          if fileDetail:
-            print("came here again")
-            fileDetail.total_file_size = size
-            fileDetail.save()
-            return HttpResponseRedirect(reverse('geo-filestoragealoc'))
+
+         try:
+          int(company_id)
+          id_int = True
+         except ValueError:
+          id_int = False 
+
+         try:
+          int(size)
+          size_int = True
+         except ValueError:
+          size_int = False 
+
+        
+         if id_int and size_int:
+          exists= int(company_id) in companyIds
+          if exists:
+           fileDetail = fileStorage.objects.get(company_id=company_id)
+           if fileDetail:
+             fileDetail.total_file_size = size
+             fileDetail.save()
+             return HttpResponseRedirect(reverse('geo-filestoragealoc'))
              # throw error
-          else:
-            return render(request, 'signin/signin.html', {
-                          'invalid': 'Please Input Valid Login'
-              })
+           else:
+             return render(request, 'signin/signin.html', {
+                           'invalid': 'Please Input Valid Login'
+               })
         return render(request, 'filestorage/index.html',{'filedetails': fileDetails})
     else:
        return render(request,'signin/signin.html')
@@ -218,10 +244,9 @@ def company(request):
         if request.method == 'POST':
          companyName = request.POST['name']
          companyEmail = request.POST['email']
-         companyType = request.POST['type']
-         company=Company.objects.create_Company(company_name=companyName,company_email=companyEmail,company_type=companyType)
+         company=Company.objects.create_Company(company_name=companyName,company_email=companyEmail)
          company.save()
-         filestore=fileStorage.objects.create_fileStorage(total_file_size="250", used_file_size="0", remaining_file_size="0",company_id=company.pk,company_name=company.company_name)
+         #filestore=fileStorage.objects.create_fileStorage(total_file_size="250", used_file_size="0", remaining_file_size="0",company_id=company.pk,company_name=company.company_name)
          return HttpResponseRedirect(reverse('geo-dashboard'))
             # throw error
     return render(request, 'company/index.html',{})
