@@ -35,12 +35,12 @@ class Company(models.Model):
     
 
 class FileStorageManager(models.Manager):
-    def create_initial_storage(self, total_file_size, used_file_size, company_id):
+    def create_initial_storage(self, total_file_size, used_file_size, company_id,company_name):
         remaining_size = total_file_size - used_file_size
         storage = self.create(total_file_size=total_file_size,
                               used_file_size=0,
                               remaining_file_size=remaining_size,
-                              company=company_id)
+                              company=company_id,company_name=company_name)
         return storage
 
 class fileStorage(models.Model):
@@ -48,6 +48,7 @@ class fileStorage(models.Model):
     total_file_size = models.CharField(max_length=200)
     used_file_size = models.CharField(max_length=200)
     remaining_file_size = models.CharField(max_length=200)
+    company_name = models.CharField(max_length=200,default="")
     company = models.ForeignKey(Company, on_delete=models.CASCADE, unique=False)
 
     class Meta():
