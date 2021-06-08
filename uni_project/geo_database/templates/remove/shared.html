@@ -5,7 +5,7 @@
     <title>Remove Share</title>
 </head>
 <body>
-<form action="/remove/share" method="POST">{% csrf_token %}
+<form action="/share/remove/{{item_id}}/{{company_name}}/" method="POST">{% csrf_token %}
     <input type="submit" value="Unshare this file">
 </form>
 </body>

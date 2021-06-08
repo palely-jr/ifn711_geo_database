@@ -176,7 +176,7 @@ def sharefiles(request, item_id):
             return render(request, 'sharedfile/sharedfile.html', {"item_id": item_id, "company_names": companyNames, "item": item})
     else:
 
-        return HttpResponseRedirect(reverse('geo-register'))
+        return redirect('geo-register')
 
 
 def mapall(request):
@@ -207,7 +207,7 @@ def mapall(request):
 
         return render(request, 'maps/allmaps.html', {"items": items, "sharedFiles": itemDictionary})
     else:
-        return HttpResponseRedirect('geo-signin')
+        return redirect('geo-signin')
 
 
 def mapsingle(request, item_id):
@@ -226,26 +226,30 @@ def removeshare(request, item_id, company_name):
         #do something
         hello = "hello"
         if request.method == 'POST':
+            print("this worked: ", company_name)
+            print("this worked: ", company_name)
             username = request.user.username
             user = User.objects.get(username=username)
             print(user.pk)
             # pulling file details
             # get the company id in the relationship table
             company = UserCompanyRelationship.objects.get(user_id=user.pk)
+            current_company = Company.objects.get(id=company.company_id)
             shared_company = Company.objects.get(company_name=company_name)
             #in sql terms
             #we want to DELETE FROM users WHERE company.company_id = company_id AND
 
             #usually you want cleanup code on delete --- we do not have due to size of project
-            SharedItems.objects.filter(company_current=company.company_id,
+            SharedItems.objects.filter(company_current=current_company.id,
                                                       item_id=item_id,
-                                                      company_shared=company).delete()
-            return HttpResponseRedirect('geo-dashboard')
+                                                      company_shared=shared_company).delete()
+            return redirect('geo-dashboard')
         else:
             #do the get request
-            return render()
-        else:
-            return HttpResponseRedirect('geo-signin')
+            return render(request, 'remove/shared.html', {"item_id": item_id,
+                                                          "company_name": company_name})
+    else:
+        return redirect('geo-signin')
 
 def dashboard(request):
     print("this is touched")
