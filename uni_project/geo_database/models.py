@@ -76,6 +76,11 @@ class Items(models.Model):
 
     objects = ItemsManager()
 
+class SharedItemsManager(models.Manager):
+    def create_shared_items(self, current_company, shared_company, item):
+        shared_item = self.create(company_current=current_company, company_shared=shared_company, item=item)
+        return shared_item
+
 class SharedItems(models.Model):
     item = models.ForeignKey(Items, on_delete=models.CASCADE, unique=False)
     company_current = models.ForeignKey(
@@ -95,6 +100,8 @@ class SharedItems(models.Model):
 
     class Meta:
         db_table = "shared_files"
+
+    objects = SharedItemsManager()
 
 
 class CompanyUserManager(models.Manager):

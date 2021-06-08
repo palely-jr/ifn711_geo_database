@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Items, fileStorage, Company, UserCompanyRelationship
+from .models import Items, fileStorage, Company, UserCompanyRelationship, SharedItems
 from django.core.mail import EmailMessage
 from django.urls import reverse
 from .viewsmethods import geolocater
@@ -150,6 +150,34 @@ def register(request):
         # user.save();
         return render(request, 'registration/registration.html', {"company_names": companyNames})
 
+def sharefiles(request, item_id):
+    if request.user.is_authenticated:
+        #share the file with a company
+        if request.method == 'POST':
+            shared_file_id = item_id
+            orgName = request.POST.getlist('Organisation')[0]
+
+            shared_company = Company.objects.get(company_name=orgName)
+            item = Items.objects.get(item_id=shared_file_id)
+            current_company = Company.objects.get(id=item.company_id)
+
+            shared_item = SharedItems.objects.create_shared_items(current_company, shared_company, item)
+            shared_item.save()
+
+            #success
+            return HttpResponseRedirect(reverse('geo-dashboard'))
+        else:
+            companyDetails = Company.objects.all()
+            companyNames = []
+            for companyId in companyDetails:
+                companyNames.append(companyId.company_name)
+            item = Items.objects.get(item_id=item_id)
+            return render(request, 'sharedfile/sharedfile.html', {"item_id": item_id, "company_names": companyNames, "item": item})
+    else:
+
+        return HttpResponseRedirect(reverse('geo-register'))
+
+
 def mapsingle(request, item_id):
 
     if request.user.is_authenticated:
@@ -190,8 +218,8 @@ def dashboard(request):
             #obtain all items associated with company id and user ..
             items = Items.objects.all().filter(company_id=company.company_id)
 
-
-            geolocater.reverse_locate(items[0].item_lat, items[0].item_long)
+            if len(items) > 0:
+                geolocater.reverse_locate(items[0].item_lat, items[0].item_long)
 
             # create a list for filedetails
 
