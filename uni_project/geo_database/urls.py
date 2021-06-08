@@ -11,6 +11,7 @@ urlpatterns = [
     # path('upload/files', views.uploadItems, name='geo-uploadItem'),
     path('delete/files', views.deleteItem, name='geo-deleteFiles'),
     path('map/single/<int:item_id>/', views.mapsingle, name='geo-singlemap'),
+    path('map/all', views.mapall, name='geo-mapall'),
     path('file/share/<int:item_id>/', views.sharefiles, name='geo-sharefile'),
     path('filestoragealoc', views.filestoragealoc, name='geo-filestoragealoc'),
     path('company', views.company, name='geo-company'),

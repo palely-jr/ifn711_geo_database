@@ -9,11 +9,9 @@
 <body>
 <h1>{{item.item_name}}</h1>
 <div id="map" style="height: 1920px; width: 1080px;"></div>
-
 <script>
     L.mapquest.key = 'X9ASCXWXmLnp2QVWdYl3N3VrpVE0F79y';
-
-        var map = L.mapquest.map('map', {
+     var map = L.mapquest.map('map', {
                   center: [-27.470125, 	153.021072],
                   layers: L.mapquest.tileLayer('map'),
                   zoom: 6
@@ -21,7 +19,7 @@
 
     // 'map' refers to a <div> element with the ID map
     let headerText = "{{item.item_name}}";
-    L.mapquest.textMarker([{{item.item_long}}, {{item.item_lat}}], {
+    L.mapquest.textMarker([{{item.item_lat}}, {{item.item_long}}], {
       text: headerText,
       subtext: 'Copper Mines',
       position: 'right',

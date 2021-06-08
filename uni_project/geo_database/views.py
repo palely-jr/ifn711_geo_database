@@ -178,6 +178,26 @@ def sharefiles(request, item_id):
         return HttpResponseRedirect(reverse('geo-register'))
 
 
+def mapall(request):
+    #map all the files under the company
+    if request.user.is_authenticated:
+        #alright
+        #all items associated with the users company
+
+        #we get the user
+        user = User.objects.get(username=request.user.username)
+
+        company = UserCompanyRelationship.objects.get(user_id=user.pk)
+
+        items = Items.objects.all().filter(company_id=company.company_id)
+        for item in items:
+            print(item.item_name)
+
+        return render(request, 'maps/allmaps.html', {"items": items})
+    else:
+        return HttpResponseRedirect('geo-signin')
+
+
 def mapsingle(request, item_id):
 
     if request.user.is_authenticated:

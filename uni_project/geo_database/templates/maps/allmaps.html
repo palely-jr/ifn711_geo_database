@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+    <script src="https://unpkg.com/leaflet.markercluster@1.0.6/dist/leaflet.markercluster.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.6/dist/MarkerCluster.css"/>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.6/dist/MarkerCluster.Default.css"/>
+</head>
+<body>
+<div id="map" style="height: 1920px; width: 1080px;"></div>
+
+<script type="text/javascript">
+        let cluster = [];
+        {% for item in items %}
+            cluster.push({
+                latitude: {{item.item_lat}},
+                longitude: {{item.item_long}},
+                document_name: "{{item.item_name}}"
+            })
+        {% endfor %}
+
+        console.log(cluster);
+
+        L.mapquest.key = 'X9ASCXWXmLnp2QVWdYl3N3VrpVE0F79y';
+
+            var map = L.mapquest.map('map', {
+                      center: [-20, 140],
+                      layers: L.mapquest.tileLayer('map'),
+                      zoom: 6
+            });
+            // 'map' refers to a <div> element with the ID map
+            var markers = L.markerClusterGroup();
+
+        for (var i = 0; i < cluster.length; i++) {
+          var addressPoint = cluster[i];
+          console.log(`this is the address point: ${addressPoint.latitude}`);
+          var title = addressPoint.document_name;
+          var marker = L.marker(new L.LatLng(addressPoint.latitude, addressPoint.longitude), {
+            title: title,
+            icon: L.mapquest.icons.marker()
+          });
+          marker.bindPopup(title);
+          markers.addLayer(marker);
+
+        }
+
+        map.addLayer(markers);
+
+     </script>
+    <h1>{{items.0.item_name}}</h1>
+    <h2>{{items.0.item_long}}</h2>
+
+
+
+</body>
+</html>
