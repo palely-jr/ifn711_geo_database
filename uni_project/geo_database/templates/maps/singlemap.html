@@ -11,12 +11,24 @@
 <script>
     L.mapquest.key = 'X9ASCXWXmLnp2QVWdYl3N3VrpVE0F79y';
 
+        var map = L.mapquest.map('map', {
+                  center: [-27.470125, 	153.021072],
+                  layers: L.mapquest.tileLayer('map'),
+                  zoom: 6
+        });
+
     // 'map' refers to a <div> element with the ID map
-    L.mapquest.map('map', {
-      center: [-27.470125, 	153.021072],
-      layers: L.mapquest.tileLayer('map'),
-      zoom: 12
-    });
+    L.mapquest.textMarker([-27.470125, 	153.021072], {
+      text: 'Mining Shop One',
+      subtext: 'Copper Mines',
+      position: 'right',
+      type: 'circle',
+      icon: {
+        primaryColor: '#333333',
+        secondaryColor: '#333333',
+        size: 'sm'
+      }
+    }).addTo(map)
   </script>
 </body>
 </html>
