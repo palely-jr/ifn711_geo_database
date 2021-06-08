@@ -8,6 +8,7 @@ from .models import Items, fileStorage, Company, UserCompanyRelationship, Shared
 from django.core.mail import EmailMessage
 from django.urls import reverse
 from .viewsmethods import geolocater
+from geopy.geocoders import Nominatim
 
 
 # basic homepage --> needs to be done
@@ -193,7 +194,18 @@ def mapall(request):
         for item in items:
             print(item.item_name)
 
-        return render(request, 'maps/allmaps.html', {"items": items})
+        shared = SharedItems.objects.all().filter(company_shared=company.company_id)
+        # do a loop and push into an array
+        # dictionary
+        itemDictionary = {}
+
+        for item in shared:
+            # print(item.company_current.company_name)
+            newItem = Items.objects.get(item_id=item.item_id)
+            # print(item.company_current.company_name)
+            itemDictionary[item] = newItem
+
+        return render(request, 'maps/allmaps.html', {"items": items, "sharedFiles": itemDictionary})
     else:
         return HttpResponseRedirect('geo-signin')
 
@@ -207,6 +219,33 @@ def mapsingle(request, item_id):
         company = UserCompanyRelationship.objects.get(user_id=user.pk)
         item = Items.objects.get(item_id=item_id)
         return render(request, 'maps/singlemap.html', {"item": item})
+
+def removeshare(request, item_id, company_name):
+    if request.user.is_authenticated:
+
+        #do something
+        hello = "hello"
+        if request.method == 'POST':
+            username = request.user.username
+            user = User.objects.get(username=username)
+            print(user.pk)
+            # pulling file details
+            # get the company id in the relationship table
+            company = UserCompanyRelationship.objects.get(user_id=user.pk)
+            shared_company = Company.objects.get(company_name=company_name)
+            #in sql terms
+            #we want to DELETE FROM users WHERE company.company_id = company_id AND
+
+            #usually you want cleanup code on delete --- we do not have due to size of project
+            SharedItems.objects.filter(company_current=company.company_id,
+                                                      item_id=item_id,
+                                                      company_shared=company).delete()
+            return HttpResponseRedirect('geo-dashboard')
+        else:
+            #do the get request
+            return render()
+        else:
+            return HttpResponseRedirect('geo-signin')
 
 def dashboard(request):
     print("this is touched")
@@ -238,15 +277,43 @@ def dashboard(request):
             #obtain all items associated with company id and user ..
             items = Items.objects.all().filter(company_id=company.company_id)
 
-            if len(items) > 0:
-                geolocater.reverse_locate(items[0].item_lat, items[0].item_long)
+            #also need to check for shared files
+            shared = SharedItems.objects.all().filter(company_shared=company.company_id)
+            #do a loop and push into an array
+            #dictionary
+            itemDictionary = {}
 
+            for item in shared:
+                # print(item.company_current.company_name)
+                newItem = Items.objects.get(item_id=item.item_id)
+                # print(item.company_current.company_name)
+                itemDictionary[item] = newItem
+
+            #items without appending
+
+            #also need to check for my shared files and display so i can remove them
+            currentSharedItems = SharedItems.objects.all().filter(company_current=company.company_id)
+            myShared = []
+            for currentShared in currentSharedItems:
+                #find the object with the current company id
+                item = Items.objects.get(item_id=currentShared.item_id)
+
+                #give the item a shared company
+                item.shared_company = currentShared.company_shared.company_name
+                #append it to the list to send to the frontend
+                myShared.append(item)
             # create a list for filedetails
-
+            for item in myShared:
+                print(item.company_id)
         # information that needs to be passed over to the front end
         # file details
         # company information
-        return render(request, 'dashboard/index.html', {'user_name': user.first_name, "file_details": listFileDetails, "company_details": companyDetails, "items": items})
+        return render(request, 'dashboard/index.html', {'user_name': user.first_name,
+                                                        "file_details": listFileDetails,
+                                                        "company_details": companyDetails,
+                                                        "items": items,
+                                                        "sharedItems": itemDictionary,
+                                                        "myShared": myShared})
     else:
         return render(request, 'signin/signin.html')
 
@@ -302,6 +369,7 @@ def uploadItem(request):
         if request.method == 'POST':
             # need to recheck this to the
             uploaded_file = request.FILES['myFile']
+            address = request.POST['address']
             print("\n\n\n\n")
             print(uploaded_file.size)
             print("\n\n\n\n")
@@ -312,9 +380,9 @@ def uploadItem(request):
             print(user.pk)
             user_company = UserCompanyRelationship.objects.get(user_id=user.pk)
             company = Company.objects.get(id=user_company.company_id)
-            longitude = 27.4705
-            latitude = 153.0260
-            new_item = Items.objects.create_item(item_file=uploaded_file, item_name=file_name, company_id=company, item_long=longitude, item_lat=latitude)
+            geolocation = Nominatim(user_agent="geo_database")
+            location = geolocation.geocode(address)
+            new_item = Items.objects.create_item(item_file=uploaded_file, item_name=file_name, company_id=company, item_long=location.longitude, item_lat=location.latitude)
             new_item.save()
             return HttpResponseRedirect(reverse('geo-dashboard'))
         return render(request, 'fileupload/uploadindividual.html', {"success": "upload file"})

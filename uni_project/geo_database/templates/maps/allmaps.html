@@ -10,10 +10,26 @@
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.6/dist/MarkerCluster.Default.css"/>
 </head>
 <body>
+<h1>{{sharedFiles|length}}</h1>
 <div id="map" style="height: 1920px; width: 1080px;"></div>
 
 <script type="text/javascript">
         let cluster = [];
+        let sharedCluster = [];
+        {% if sharedFiles|length > 0 %}
+
+        {% for key, value in sharedFiles.items %}
+            sharedCluster.push({
+                latitude: {{value.item_lat}},
+                longitude: {{value.item_long}},
+                document_name: "{{value.item_name}}",
+                company_owner: "{{key.company_current.company_name}}"
+            });
+        {% endfor %}
+        console.log(`this is the shared cluster: ${sharedCluster}`);
+        {% endif %}
+
+
         {% for item in items %}
             cluster.push({
                 latitude: {{item.item_lat}},
@@ -33,7 +49,7 @@
             });
             // 'map' refers to a <div> element with the ID map
             var markers = L.markerClusterGroup();
-
+            var sharedMarkers = L.markerClusterGroup();
         for (var i = 0; i < cluster.length; i++) {
           var addressPoint = cluster[i];
           console.log(`this is the address point: ${addressPoint.latitude}`);
@@ -47,6 +63,26 @@
 
         }
 
+        {% if sharedFiles|length > 0 %}
+        for (var i = 0; i < sharedCluster.length; i++) {
+          var addressPoint = sharedCluster[i];
+          console.log(`this is the address point: ${addressPoint.latitude}`);
+          var title = addressPoint.document_name;
+          var company_owner = addressPoint.company_owner;
+          var marker = L.marker(new L.LatLng(addressPoint.latitude, addressPoint.longitude), {
+            title: title,
+            title: "hello",
+            icon: L.mapquest.icons.marker()
+          });
+
+          marker.bindPopup(title);
+          markers.addLayer(marker);
+        }
+        {% endif %}
+
+        {% if sharedFiles|length > 0 %}
+        map.addLayer(sharedMarkers);
+        {% endif %}
         map.addLayer(markers);
 
      </script>

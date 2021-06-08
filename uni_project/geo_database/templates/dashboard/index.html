@@ -76,7 +76,7 @@
                      <span>Dropdown </span><i class=" icofont icofont-simple-down"></i>
                   </a>
                   <ul class="dropdown-menu settings-menu">
-                     <li><a href="#">List item 1</a></li>
+                     <li><a href="/share/remove">Unshare a File</a></li>
                      <li><a href="#">List item 2</a></li>
                      <li><a href="#">List item 3</a></li>
                      <li><a href="#">List item 4</a></li>
@@ -570,6 +570,7 @@
                   <div class="card">
                      <div class="card-block">
                         <div class="table-responsive">
+                           <h1><a href="/map/all">View All Files on Map</a></h1>
                            <table class="table m-b-0 photo-table">
                               <thead>
                                  <tr class="text-uppercase">
@@ -583,58 +584,65 @@
                                  </tr>
                               </thead>
                               <tbody>
+                                 {% for item in items %}
                                  <tr>
                                     <th>
-                                       <img class="img-fluid img-circle" href="{% static 'dashboard/assets/images/avatar-2.png' %}"  alt="User">
+                                       <p>{{company_details.0}}</p>
                                     </th>
-                                    <td>Orefox Data
-                                       <p>
+                                    <td>
+                                       <p>{{item.item_name}}</p>
                                     </td>
                                     <td>October 21, 2015</td>
-                                    <td><a href="/map/single/{{items.1.item_id}}">See Location</a></td>
-                                    <td><a href="/file/share/{{items.1.item_id}}">Share File</a></td>
+                                    <td><a href="/map/single/{{item.item_id}}">See Location</a></td>
+                                    <td><a href="/file/share/{{item.item_id}}">Share File</a></td>
                                     <td><div id="delBtn">Delete</div></td>
                                  </tr>
+                                 {% endfor %}
+                                 {% for key, value in sharedItems.items %}
+                                    <tr>
+                                    <th>
+                                       <p>{{key.company_current.company_name}}</p>
+                                    </th>
+                                    <td>
+                                       <p>{{value.item_name}}</p>
+                                    </td>
+                                    <td>October 21, 2015</td>
+                                    <td><a href="/map/single/{{value.item_id}}">See Location</a></td>
+                                    <td>Not Applicable</td>
+                                    <td>Not Applicable</td>
+                                 </tr>
+                                 {% endfor %}
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+               <div class="col-xl-12 col-lg-12">
+                  <div class="card">
+                     <div class="card-block">
+                        <div class="table-responsive">
+                           <h1>Currently Sharing these files</h1>
+                           <table class="table m-b-0 photo-table">
+                              <thead>
+                                 <tr class="text-uppercase">
+                                    <th>File Name</th>
+                                    <th>Shared To</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 {% for myFile in myShared %}
                                  <tr>
                                     <th>
-                                       <img class="img-fluid img-circle" src="{% static 'dashboard/assets/images/avatar-4.png' %}" alt="User">
+                                       <p>{{myFile.item_name}}</p>
                                     </th>
-                                    <td>Geological Data
-                                       <p></p>
-                                    </td>
                                     <td>
-                                       <span class="pie" style="display: none;">0.52/1.561</span><svg class="peity" height="30" width="30"><path d="M 15.000000000000002 0 A 15 15 0 0 1 28.00043211809656 22.482564048691025 L 15 15" fill="#2196F3"></path><path d="M 28.00043211809656 22.482564048691025 A 15 15 0 1 1 14.999999999999996 0 L 15 15" fill="#ccc"></path></svg>
+                                       <p>{{myFile.shared_company}}</p>
                                     </td>
-                                    <td>70%</td>
-                                    <td>November 21, 2015</td>
+                                    <td><div id="btnDel"><a href="/share/remove/{{myFile.item_id}}/{{myFile.shared_company}}/">Unshare</a></div></td>
                                  </tr>
-                                 <tr>
-                                    <th>
-                                       <img class="img-fluid img-circle" src="{% static 'dashboard/assets/images/avatar-1.png' %}" src="assets/images/avatar-1.png" alt="User">
-                                    </th>
-                                    <td>Web Consultancy
-                                       <p><i class="icofont icofont-clock-time"></i>Created 20.10.2016</p>
-                                    </td>
-                                    <td>
-                                       <span class="pie" style="display: none;">1,4</span><svg class="peity" height="30" width="30"><path d="M 15.000000000000002 0 A 15 15 0 0 1 29.265847744427305 10.36474508437579 L 15 15" fill="#2196F3"></path><path d="M 29.265847744427305 10.36474508437579 A 15 15 0 1 1 14.999999999999996 0 L 15 15" fill="#ccc"></path></svg>
-                                    </td>
-                                    <td>40%</td>
-                                    <td>September 21, 2015</td>
-                                 </tr>
-                                 <tr>
-                                    <th>
-                                       <img class="img-fluid img-circle" src="{% static 'dashboard/assets/images/avatar-3.png' %}"  alt="User">
-                                    </th>
-                                    <td>Brisbane Mining Data
-                                       
-                                    </td>
-                                    <td>
-                                       <span class="pie" style="display: none;">0.52/1.561</span><svg class="peity" height="30" width="30"><path d="M 15.000000000000002 0 A 15 15 0 0 1 28.00043211809656 22.482564048691025 L 15 15" fill="#2196F3"></path><path d="M 28.00043211809656 22.482564048691025 A 15 15 0 1 1 14.999999999999996 0 L 15 15" fill="#ccc"></path></svg>
-                                    </td>
-                                    <td>70%</td>
-                                    <td>November 21, 2015</td>
-                                 </tr>
-                                 <tr>
+                                 {% endfor %}
                               </tbody>
                            </table>
                         </div>
