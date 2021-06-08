@@ -7,7 +7,9 @@
     <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
 </head>
 <body>
+<h1>{{item.item_name}}</h1>
 <div id="map" style="height: 1920px; width: 1080px;"></div>
+
 <script>
     L.mapquest.key = 'X9ASCXWXmLnp2QVWdYl3N3VrpVE0F79y';
 
@@ -18,8 +20,9 @@
         });
 
     // 'map' refers to a <div> element with the ID map
-    L.mapquest.textMarker([-27.470125, 	153.021072], {
-      text: 'Mining Shop One',
+    let headerText = "{{item.item_name}}";
+    L.mapquest.textMarker([{{item.item_long}}, {{item.item_lat}}], {
+      text: headerText,
       subtext: 'Copper Mines',
       position: 'right',
       type: 'circle',
