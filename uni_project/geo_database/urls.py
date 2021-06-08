@@ -10,6 +10,7 @@ urlpatterns = [
     path('upload/file', views.uploadItem, name='geo-uploadItem'),
     # path('upload/files', views.uploadItems, name='geo-uploadItem'),
     path('delete/files', views.deleteItem, name='geo-deleteFiles'),
+    path('map/single', views.mapsingle, name='geo-singlemap'),
     path('filestoragealoc', views.filestoragealoc, name='geo-filestoragealoc'),
     path('company', views.company, name='geo-company'),
     path('playground', views.playground, name='geo-playground'),

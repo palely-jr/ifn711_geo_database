@@ -150,6 +150,10 @@ def register(request):
         # user.save();
         return render(request, 'registration/registration.html', {"company_names": companyNames})
 
+def mapsingle(request):
+
+    if request.user.is_authenticated:
+        return render(request, 'maps/singlemap.html')
 
 def dashboard(request):
     print("this is touched")
