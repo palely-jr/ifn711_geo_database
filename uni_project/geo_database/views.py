@@ -176,6 +176,10 @@ def sharefiles(request, item_id):
             companyNames = []
             for companyId in companyDetails:
                 companyNames.append(companyId.company_name)
+            user = User.objects.get(username=request.user.username)
+            company = UserCompanyRelationship.objects.get(user_id=user.pk)
+            companyNameUsed=Company.objects.get(id=company.company_id)
+            companyNames.remove(companyNameUsed.company_name)
             item = Items.objects.get(item_id=item_id)
             return render(request, 'sharedfile/sharedfile.html', {"item_id": item_id, "company_names": companyNames, "item": item})
     else:
