@@ -12,6 +12,10 @@ from geopy.geocoders import Nominatim
 
 
 # basic homepage --> needs to be done
+def __len__(self):
+    return len(self.name)
+
+
 def home(request):
     if request.user.is_authenticated:
         user = User.objects.get(username=request.user.username)
@@ -252,7 +256,6 @@ def removeshare(request, item_id, company_name):
         return redirect('geo-signin')
 
 def dashboard(request):
-    print("this is touched")
     if request.user.is_authenticated:
         if request.user.is_superuser:
             username = request.user.username
@@ -268,8 +271,12 @@ def dashboard(request):
             print("COMPANY RELATIONSHIP \n\n\n")
             print(company.company_id)
             print("end of company relationship  \n\n\n\n\n")
+            userCount= len(UserCompanyRelationship.objects.filter(company_id=company.company_id));
+
+            print("User Count for this company is",userCount)
+
             # then find the releveant file details
-            fileDetails = fileStorage.objects.get(company_id=company.company_id)
+            fileDetails = fileStorage.objects.get(company_id=company.company_id)          
 
             listFileDetails = [fileDetails.total_file_size, fileDetails.used_file_size, fileDetails.remaining_file_size]
 
@@ -280,9 +287,14 @@ def dashboard(request):
 
             #obtain all items associated with company id and user ..
             items = Items.objects.all().filter(company_id=company.company_id)
+            fileCount=len(items)
+            print("file count",fileCount)
 
             #also need to check for shared files
             shared = SharedItems.objects.all().filter(company_shared=company.company_id)
+            sharedCounttoYou=len(shared)
+           
+
             #do a loop and push into an array
             #dictionary
             itemDictionary = {}
@@ -297,6 +309,8 @@ def dashboard(request):
 
             #also need to check for my shared files and display so i can remove them
             currentSharedItems = SharedItems.objects.all().filter(company_current=company.company_id)
+
+            sharedCountbyYou=len(currentSharedItems)
             myShared = []
             for currentShared in currentSharedItems:
                 #find the object with the current company id
@@ -317,7 +331,11 @@ def dashboard(request):
                                                         "company_details": companyDetails,
                                                         "items": items,
                                                         "sharedItems": itemDictionary,
-                                                        "myShared": myShared})
+                                                        "myShared": myShared,
+                                                        "userCount":userCount,
+                                                        "sharedCountbyYou":sharedCountbyYou,
+                                                        "sharedCounttoYou":sharedCounttoYou,
+                                                        "fileCount":fileCount})
     else:
         return render(request, 'signin/signin.html')
 

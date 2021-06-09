@@ -60,7 +60,7 @@
    <div class="wrapper">
       <!-- Navbar-->
       <header class="main-header-top hidden-print">
-         <a href="index.html" class="logo"><img class="img-fluid able-logo" src="{% static 'images/Capture.png' %}" alt="Theme-logo"></a>
+         <a href="/dashboard" class="logo"><img class="img-fluid able-logo" src="{% static 'images/Capture.png' %}" alt="Theme-logo"></a>
          <nav class="navbar navbar-static-top">
             <!-- Sidebar toggle button-->
             <a href="#!" data-toggle="offcanvas" class="sidebar-toggle"></a>
@@ -71,23 +71,12 @@
                      <i class="ti-files"> </i><span> Upload Files</span>
                   </a>
                </li>               
-               <li class="dropdown">
-                  <a href="#!" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle drop icon-circle drop-image">
-                     <span>Dropdown </span><i class=" icofont icofont-simple-down"></i>
-                  </a>
-                  <ul class="dropdown-menu settings-menu">
-                     <li><a href="/share/remove">Unshare a File</a></li>
-                     <li><a href="#">List item 2</a></li>
-                     <li><a href="#">List item 3</a></li>
-                     <li><a href="#">List item 4</a></li>
-                     <li><a href="#">List item 5</a></li>
-                  </ul>
-               </li>
-               <li class="dropdown pc-rheader-submenu message-notification search-toggle">
+  
+               <!--<li class="dropdown pc-rheader-submenu message-notification search-toggle">
                   <a href="#!" id="morphsearch-search" class="drop icon-circle txt-white">
                      <i class="ti-search"></i>
                   </a>
-               </li>
+               </li>-->
             </ul>
             <!-- Navbar Right Menu-->
             <div class="navbar-custom-menu f-right">
@@ -96,48 +85,9 @@
                <ul class="top-nav">
                   <!--Notification Menu-->
                     
-                  <li class="dropdown notification-menu">
-                     <a href="#!" data-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">
-                        <i class="icon-bell"></i>
-                        <span class="badge badge-danger header-badge">9</span>
-                     </a>
-                     <ul class="dropdown-menu">
-                        <li class="not-head">You have <b class="text-primary">4</b> new notifications.</li>
-                        <li class="bell-notification">
-                           <a href="javascript:;" class="media">
-                              <span class="media-left media-icon">
-                    <img class="img-circle" src="{% static 'dashboard/assets/images/avatar-1.png' %}" alt="User Image">
-                  </span>
-                              <div class="media-body"><span class="block">Lisa sent you a mail</span><span class="text-muted block-time">2min ago</span></div>
-                           </a>
-                        </li>
-                        <li class="bell-notification">
-                           <a href="javascript:;" class="media">
-                              <span class="media-left media-icon">
-                    <img class="img-circle" href="{% static 'dashboard/assets/icon/simple-line-icons/css/simple-line-icons.css' %}" src="assets/images/avatar-2.png" alt="User Image">
-                  </span>
-                              <div class="media-body"><span class="block">Server Not Working</span><span class="text-muted block-time">20min ago</span></div>
-                           </a>
-                        </li>
-                        <li class="bell-notification">
-                           <a href="javascript:;" class="media"><span class="media-left media-icon">
-                    <img class="img-circle" href="{% static 'dashboard/assets/icon/simple-line-icons/css/simple-line-icons.css' %}" src="assets/images/avatar-3.png" alt="User Image">
-                  </span>
-                                    <div class="media-body"><span class="block">Transaction xyz complete</span><span class="text-muted block-time">3 hours ago</span></div></a>
-                        </li>
-                        <li class="not-footer">
-                           <a href="#!">See all notifications.</a>
-                        </li>
-                     </ul>
-                  </li>
-                  <!-- chat dropdown -->
-                  <li class="pc-rheader-submenu ">
-                     <a href="#!" class="drop icon-circle displayChatbox">
-                        <i class="icon-bubbles"></i>
-                        <span class="badge badge-danger header-badge">5</span>
-                     </a>
 
-                  </li>
+                  <!-- chat dropdown -->
+            
                   <!-- window screen -->
                   <li class="pc-rheader-submenu">
                      <a href="#!" class="drop icon-circle" onclick="javascript:toggleFullScreen()">
@@ -156,13 +106,9 @@
 
                      </a>
                      <ul class="dropdown-menu settings-menu">
-                        <li><a href="#!"><i class="icon-settings"></i> Settings</a></li>
+                 
                         <li><a href="#"><i class="icon-user"></i> Profile</a></li>
-                        <li><a href="#"><i class="icon-envelope-open"></i> My Messages</a></li>
-                        <li class="p-0">
-                           <div class="dropdown-divider m-0"></div>
-                        </li>
-                        <li><a href="#"><i class="icon-lock"></i> Lock Screen</a></li>
+                    
                         <li><a href="/signout"><i class="icon-logout"></i> Logout</a></li>
 
                      </ul>
@@ -178,46 +124,9 @@
                      <button class="morphsearch-submit" type="submit">Search</button>
 
                   </form>
-                  <div class="morphsearch-content">
-                     <div class="dummy-column">
-                        <h2>People</h2>
-                        <a class="dummy-media-object" href="#!">
-                           <img class="round" src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G" alt="Sara Soueidan" />
-                           <h3>Sara Soueidan</h3>
-                        </a>
-
-                        <a class="dummy-media-object" href="#!">
-                           <img class="round" src="http://1.gravatar.com/avatar/9bc7250110c667cd35c0826059b81b75?s=50&d=identicon&r=G" alt="Shaun Dona" />
-                           <h3>Shaun Dona</h3>
-                        </a>
-                     </div>
-                     <div class="dummy-column">
-                        <h2>Popular</h2>
-                        <a class="dummy-media-object" href="#!">
-                           <img href="{% static 'dashboard/assets/images/avatar-1.png' %}" alt="PagePreloadingEffect" />
-                           <h3>Page Preloading Effect</h3>
-                        </a>
-
-                        <a class="dummy-media-object" href="#!">
-                           <img href="{% static 'dashboard/assets/images/avatar-1.png' %}" src="assets/images/avatar-1.png" alt="DraggableDualViewSlideshow" />
-                           <h3>Draggable Dual-View Slideshow</h3>
-                        </a>
-                     </div>
-                     <div class="dummy-column">
-                        <h2>Recent</h2>
-                        <a class="dummy-media-object" href="#!">
-                           <img href="{% static 'dashboard/assets/images/avatar-1.png' %}" alt="TooltipStylesInspiration" />
-                           <h3>Tooltip Styles Inspiration</h3>
-                        </a>
-                        <a class="dummy-media-object" href="#!">
-                           <img href="{% static 'dashboard/assets/images/avatar-1.png' %}" alt="NotificationStyles" />
-                           <h3>Notification Styles Inspiration</h3>
-                        </a>
-                     </div>
-                  </div>
+                 
                   <!-- /morphsearch-content -->
-                  <span class="morphsearch-close"><i class="icofont icofont-search-alt-1"></i></span>
-               </div>
+                
                <!-- search end -->
             </div>
          </nav>
@@ -227,9 +136,9 @@
          <section class="sidebar" id="sidebar-scroll">
             <!-- Sidebar Menu-->
             <ul class="sidebar-menu">
-                <li class="nav-level">--- Navigation</li>
+                <li class="nav-level">------------------------Menu-----------------------</li>
                 <li class="active treeview">
-                    <a class="waves-effect waves-dark" href="index.html">
+                    <a class="waves-effect waves-dark" href="/dashboard">
                         <i class="icon-speedometer"></i><span> Dashboard</span>
                     </a>                
                 </li>
@@ -346,111 +255,8 @@
          </section>
       </aside>
       <!-- Sidebar chat start -->
-      <div id="sidebar" class="p-fixed header-users showChat">
-         <div class="had-container">
-            <div class="card card_main header-users-main">
-               <div class="card-content user-box">
-                  <div class="md-group-add-on p-20">
-                     <span class="md-add-on">
-                                    <i class="icofont icofont-search-alt-2 chat-search"></i>
-                                 </span>
-                     <div class="md-input-wrapper">
-                        <input type="text" class="md-form-control" name="username" id="search-friends">
-                        <label>Search</label>
-                     </div>
+   
 
-                  </div>
-                  <div class="media friendlist-main">
-
-                     <h6>Friend List</h6>
-
-                  </div>
-                  <div class="main-friend-list">
-                     <div class="media friendlist-box" data-id="1" data-status="online" data-username="Josephin Doe" data-toggle="tooltip" data-placement="left" title="Josephin Doe">
-
-                        <a class="media-left" href="#!">
-                           <img class="media-object img-circle" href="{% static 'assets/images/avatar-1.png' %}" alt="Generic placeholder image">
-                           <div class="live-status bg-success"></div>
-                        </a>
-                        <div class="media-body">
-                           <div class="friend-header">Josephin Doe</div>
-                           <span>20min ago</span>
-                        </div>
-                     </div>
-                     <div class="media friendlist-box" data-id="3" data-status="online" data-username="Alice" data-toggle="tooltip" data-placement="left" title="Alice">
-                        <a class="media-left" href="#!">
-                           <img class="media-object img-circle" href="{% static 'dashboard/assets/images/avatar-2.png' %}" alt="Generic placeholder image">
-                           <div class="live-status bg-success"></div>
-                        </a>
-                        <div class="media-body">
-                           <div class="friend-header">Alice</div>
-                           <span>1 hour ago</span>
-                        </div>
-                     </div>
-                     <div class="media friendlist-box" data-id="7" data-status="offline" data-username="Michael Scofield" data-toggle="tooltip" data-placement="left" title="Michael Scofield">
-                        <a class="media-left" href="#!">
-                           <img class="media-object img-circle" src="{% static 'dashboard/assets/images/avatar-3.png' %}"  alt="Generic placeholder image">
-                           <div class="live-status bg-danger"></div>
-                        </a>
-                        <div class="media-body">
-                           <div class="friend-header">Michael Scofield</div>
-                           <span>3 hours ago</span>
-                        </div>
-                     </div>
-                     <div class="media friendlist-box" data-id="5" data-status="online" data-username="Irina Shayk" data-toggle="tooltip" data-placement="left" title="Irina Shayk">
-                        <a class="media-left" href="#!">
-                           <img class="media-object img-circle" src="{% static 'dashboard/assets/images/avatar-4.png' %}"  alt="Generic placeholder image">
-                           <div class="live-status bg-success"></div>
-                        </a>
-                        <div class="media-body">
-                           <div class="friend-header">Irina Shayk</div>
-                           <span>1 day ago</span>
-                        </div>
-                     </div>
-                    
-                     
-                     
-                     <div class="media friendlist-box" data-id="3" data-status="online" data-username="Alice" data-toggle="tooltip" data-placement="left" title="Alice">
-                        <a class="media-left" href="#!">
-                           <img class="media-object img-circle" src="{% static 'dashboard/assets/images/avatar-2.png' %}" alt="Generic placeholder image">
-                           <div class="live-status bg-success"></div>
-                        </a>
-                        <div class="media-body">
-                           <div class="friend-header">Alice</div>
-                           <span>1 hour ago</span>
-                        </div>
-                     </div>
-                     
-                    
-                     <div class="media friendlist-box" data-id="1" data-status="online" data-username="Josephin Doe" data-toggle="tooltip" data-placement="left" title="Josephin Doe">
-
-                        <a class="media-left" href="#!">
-                           <img class="media-object img-circle" src="{% static 'dashboard/assets/images/avatar-1.png' %}" alt="Generic placeholder image">
-                           <div class="live-status bg-success"></div>
-                        </a>
-                        <div class="media-body">
-                           <div class="friend-header">Josephin Doe</div>
-                           <span>20min ago</span>
-                        </div>
-                     </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-      </div>
-      <div class="showChat_inner">
-         <div class="media chat-inner-header">
-            <a class="back_chatBox">
-               <i class="icofont icofont-rounded-left"></i> Josephin Doe
-            </a>
-         </div>
-         
-        
-         
-      </div>
       <!-- Sidebar chat end-->
       <div class="content-wrapper">
          <!-- Container-fluid starts -->
@@ -466,7 +272,7 @@
                <div class="col-lg-3 col-md-6">
                   <div class="card dashboard-product">
                      <span>Files Uploaded</span>
-                     <h2 class="dashboard-total-products">350</h2>
+                     <h2 class="dashboard-total-products">{{fileCount}}</h2>
                      <span class="label label-warning">Files</span>
                      <div class="side-box">
                         <i class="ti-signal text-warning-color"></i>
@@ -514,28 +320,28 @@
                <div class="col-lg-4">
                   <div class="card">
                      <div class="user-block-2">
-                        <img class="img-fluid" src="{% static 'images/riotinto.png' %}" alt="user-header">
-                        <h5>{{company_details.0}}</h5>
-                        <h6>{{company_details.1}}</h6>
+                        <br></br> 
+                        <h5><b>{{company_details.0}}</b></h5>
+                        <br></br>
                      </div>
                      <div class="card-block">
                         <div class="user-block-2-activities">
                            <div class="user-block-2-active">
-                              <i class="icofont icofont-clock-time"></i> Total Users
-                              <label class="label label-primary">5</label>
+                              <i class="icofont icofont-clock-time"></i>Total Users
+                              <label class="label label-primary">{{userCount}}</label>
                            </div>
                         </div>
                         <div class="user-block-2-activities">
                            <div class="user-block-2-active">
-                              <i class="icofont icofont-users"></i> Files Shared by you
-                              <label class="label label-primary">10</label>
+                              <i class="icofont icofont-users"></i> Files Shared By You
+                              <label class="label label-primary">{{sharedCountbyYou}}</label>
                            </div>
                         </div>
 
                         <div class="user-block-2-activities">
                            <div class="user-block-2-active">
-                              <i class="icofont icofont-ui-user"></i> Files shared with you
-                              <label class="label label-primary">25</label>
+                              <i class="icofont icofont-ui-user"></i> Files Shared With You
+                              <label class="label label-primary">{{sharedCounttoYou}}</label>
                            </div>
 
                         </div>
@@ -553,11 +359,55 @@
                </div>
                <div class="col-lg-8">
                   <div class="card">
-                     <div class="card-header">
-                        <h5 class="card-header-text">Bar chart for location Details</h5>
-                     </div>
-                     <div class="card-block">
-                        <div id="barchart" style="min-width: 250px; height: 330px; margin: 0 auto"></div>
+                     <div class="card">
+                        <div class="card-block">
+                           <div class="table-responsive">
+                              <h1><a href="/map/all">View All Files on Map</a></h1>
+                              <table class="table m-b-0 photo-table">
+                                 <thead>
+                                    <tr class="text-uppercase">
+                                       <th>Company Name</th>
+                                       <th>File Name</th>
+                                       <th>Date</th>
+                                       <th>Location</th>
+                                       <th>Share</th>
+                                       <th>Delete</th>
+   
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for item in items %}
+                                    <tr>
+                                       <th>
+                                          <p>{{company_details.0}}</p>
+                                       </th>
+                                       <td>
+                                          <p>{{item.item_name}}</p>
+                                       </td>
+                                       <td>October 21, 2015</td>
+                                       <td><a href="/map/single/{{item.item_id}}">See Location</a></td>
+                                       <td><a href="/file/share/{{item.item_id}}">Share File</a></td>
+                                       <td><div id="delBtn">Delete</div></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% for key, value in sharedItems.items %}
+                                       <tr>
+                                       <th>
+                                          <p>{{key.company_current.company_name}}</p>
+                                       </th>
+                                       <td>
+                                          <p>{{value.item_name}}</p>
+                                       </td>
+                                       <td>October 21, 2015</td>
+                                       <td><a href="/map/single/{{value.item_id}}">See Location</a></td>
+                                       <td>Not Applicable</td>
+                                       <td>Not Applicable</td>
+                                    </tr>
+                                    {% endfor %}
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -565,7 +415,7 @@
             <!-- 1-3-block row end -->
 
             <!-- 2-1 block start -->
-            <div class="row">
+            <!--<div class="row">
                <div class="col-xl-12 col-lg-12">
                   <div class="card">
                      <div class="card-block">
@@ -618,7 +468,7 @@
                      </div>
                   </div>
                </div>
-               <div class="row">
+               <div class="row">-->
 
                {% if myShared|length > 0 %}
                <div class="col-xl-12 col-lg-12">
