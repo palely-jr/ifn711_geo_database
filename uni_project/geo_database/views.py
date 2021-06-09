@@ -216,6 +216,10 @@ def mapall(request):
         return render(request, 'maps/allmaps.html', {"items": items, "sharedFiles": itemDictionary})
     else:
         return redirect('geo-signin')
+def companydisp(request):
+    if request.user.is_authenticated:
+        companyDetails = Company.objects.all()
+        return render(request, 'company/display/index.html', {"companyDetails": companyDetails})
 
 
 def mapsingle(request, item_id):
@@ -264,7 +268,14 @@ def dashboard(request):
         if request.user.is_superuser:
             username = request.user.username
             user = User.objects.get(username=username)
-            return render(request, 'dashboard/admin/index.html', {'user_items': username})
+            user= User.objects.all()
+            company= Company.objects.all()
+            item= Items.objects.all()
+            userCount= len(user)
+            companyCount= len(company)
+            itemCount= len(item)
+
+            return render(request, 'dashboard/admin/index.html', {'user_items': username,'userCount': userCount,'companyCount': companyCount,'itemCount': itemCount})
         else:
             username = request.user.username
             user = User.objects.get(username=username)

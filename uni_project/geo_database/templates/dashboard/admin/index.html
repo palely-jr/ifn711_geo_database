@@ -64,7 +64,7 @@
                             
                             
                             <ul class="widget widget-menu unstyled">
-                                <li><a href=""><i class="menu-icon icon-bold"></i> Files </a></li>
+                                <li><a href="/companydisp"><i class="menu-icon icon-bold"></i> Company Details </a></li>
 
                             </ul>
                             <!--/.widget-nav-->
@@ -79,15 +79,15 @@
                         <div class="content">
                             <div class="btn-controls">
                                 <div class="btn-box-row row-fluid">
-                                    <a href="/filestoragealoc" class="btn-box big span4"><i class=" icon-random"></i><b> </b>
+                                    <a href="/filestoragealoc" class="btn-box big span4"><i class=" icon-random"></i><b>{{itemCount}} </b>
                                         <p class="text-muted">
                                             File Storage</p>
-                                    </a><a href="#" class="btn-box big span4"><i class="icon-user"></i><b>15</b>
+                                    </a><a href="#" class="btn-box big span4"><i class="icon-user"></i><b>{{userCount}}</b>
                                         <p class="text-muted">
-                                            New Users</p>
-                                    </a><a href="/company" class="btn-box big span4"><i class="icon-envelope"></i><b>15,152</b>
+                                            Number Of Users</p>
+                                    </a><a href="/company" class="btn-box big span4"><i class="icon-envelope"></i><b>{{companyCount}}</b>
                                         <p class="text-muted">
-                                            Company</p>
+                                            Company Creation</p>
                                     </a>
                                 </div>
                                 <div class="btn-box-row row-fluid">
@@ -119,6 +119,7 @@
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
+                                                
                                                 
         <!--/.wrapper-->
         <div class="footer">

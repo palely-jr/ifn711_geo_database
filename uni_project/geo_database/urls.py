@@ -17,5 +17,6 @@ urlpatterns = [
     path('filestoragealoc', views.filestoragealoc, name='geo-filestoragealoc'),
     path('company', views.company, name='geo-company'),
     path('playground', views.playground, name='geo-playground'),
-    path('companyregistration', views.companyregistration, name='geo-orgRegistration')
+    path('companyregistration', views.companyregistration, name='geo-orgRegistration'),
+    path('companydisp', views.companydisp, name='geo-companydisp')
 ]
