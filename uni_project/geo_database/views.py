@@ -44,27 +44,34 @@ def signin(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST["password"]
-        # we use this to authenticat the user
-        user_account = authenticate(username=username, password=password)
-        print("this is something", user_account)
-        # check if user is authenticated
-        if user_account:
-            if user_account.is_active:
-                login(request, user_account)
-                return HttpResponseRedirect(reverse('geo-dashboard'))
+        if username and password:
+         # we use this to authenticat the user
+         user_account = authenticate(username=username, password=password)
+         print("this is something", user_account)
+         # check if user is authenticate
+         if user_account:
+             if user_account.is_active:
+                 login(request, user_account)
+                 return HttpResponseRedirect(reverse('geo-dashboard'))
             # throw error
-            else:
-                return render(request, 'signin/signin.html', {
-                    'login_disabled': 'account disabled'
-                })
+             else:
+                 return render(request, 'signin/signin.html', {
+                     'login_disabled': 'account disabled'
+                 })
         # pass through different error messages for error validation on client side
+         else:
+             return render(request, 'signin/signin.html', {
+                 'invalid': 'Please Input Valid Login'
+             })
         else:
-            return render(request, 'signin/signin.html', {
+
+             return render(request, 'signin/signin.html', {
                 'invalid': 'Please Input Valid Login'
             })
 
     else:
-        return render(request, 'signin/signin.html', {})
+
+         return render(request, 'signin/signin.html', {})
 
 
 def deleteItem(request):
@@ -236,13 +243,11 @@ def removeshare(request, item_id, company_name):
     if request.user.is_authenticated:
 
         #do something
-        hello = "hello"
         if request.method == 'POST':
             print("this worked: ", company_name)
             print("this worked: ", company_name)
             username = request.user.username
             user = User.objects.get(username=username)
-            print(user.pk)
             # pulling file details
             # get the company id in the relationship table
             company = UserCompanyRelationship.objects.get(user_id=user.pk)
@@ -401,7 +406,6 @@ def filestoragealoc(request):
 
 
 def uploadItem(request):
-    print("this is accessed")
     if request.user.is_authenticated:
         if request.method == 'POST':
             # need to recheck this to the
@@ -410,17 +414,17 @@ def uploadItem(request):
             print("\n\n\n\n")
             print(uploaded_file.size)
             print("\n\n\n\n")
+           
             file_name = request.POST['filename']
-            username = request.user.username
-            print(username)
-            user = User.objects.get(username=username)
-            print(user.pk)
-            user_company = UserCompanyRelationship.objects.get(user_id=user.pk)
-            company = Company.objects.get(id=user_company.company_id)
-            geolocation = Nominatim(user_agent="geo_database")
-            location = geolocation.geocode(address)
-            new_item = Items.objects.create_item(item_file=uploaded_file, item_name=file_name, company_id=company, item_long=location.longitude, item_lat=location.latitude)
-            new_item.save()
+            if uploaded_file and address and file_name:
+             username = request.user.username
+             user = User.objects.get(username=username)
+             user_company = UserCompanyRelationship.objects.get(user_id=user.pk)
+             company = Company.objects.get(id=user_company.company_id)
+             geolocation = Nominatim(user_agent="geo_database")
+             location = geolocation.geocode(address)
+             new_item = Items.objects.create_item(item_file=uploaded_file, item_name=file_name, company_id=company, item_long=location.longitude, item_lat=location.latitude)
+             new_item.save()
             return HttpResponseRedirect(reverse('geo-dashboard'))
         return render(request, 'fileupload/uploadindividual.html', {"success": "upload file"})
     return HttpResponseRedirect(reverse('geo-signin'))
@@ -430,7 +434,7 @@ def uploadItem(request):
 def signout(request):
     if request.user.is_authenticated:
         logout(request)
-        return HttpResponseRedirect(reverse('geo-signin'))
+        return HttpResponseRedirect(reverse('geo-home'))
 
 
 def company(request):
@@ -438,10 +442,11 @@ def company(request):
         if request.method == 'POST':
             companyName = request.POST['name']
             companyEmail = request.POST['email']
-            company = Company.objects.create_Company(company_name=companyName, company_email=companyEmail)
-            company.save()
+            if companyEmail and companyName:
+             company = Company.objects.create_Company(company_name=companyName, company_email=companyEmail)
+             company.save()
             # filestore=fileStorage.objects.create_fileStorage(total_file_size="250", used_file_size="0", remaining_file_size="0",company_id=company.pk,company_name=company.company_name)
-            return HttpResponseRedirect(reverse('geo-dashboard'))
+             return HttpResponseRedirect(reverse('geo-dashboard'))
             # throw error
     return render(request, 'company/index.html', {})
 
