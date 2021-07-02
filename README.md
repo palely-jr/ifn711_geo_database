@@ -27,3 +27,5 @@ go to settings.py inside of uni_project/uni_project
 inside here go to installed_apps
 and delete the line "email_authentication" (or something similarly named at the bottom of the list)
 now you can try re run
+if folder not existing causes errors.
+Create a folder named 'media' inside of ifn711_geo_database/uni_project. (this is where the files will be stored)
