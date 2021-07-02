@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Company Registration</title>
+</head>
+<body>
+<form action="/companyregistration" method="POST">{% csrf_token %}
+    <input type="text" id="organisation_name" name="organisation_name" value="orefox">
+    <input type="text" id="organisation_email" name="organisation_email" value="orefox@gmail.com">
+    <input type="submit" id="submitBtn" value="Submit">
+</form>
+</body>
+</html>

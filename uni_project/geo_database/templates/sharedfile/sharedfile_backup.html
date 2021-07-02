@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Share file</title>
+</head>
+<body>
+
+<h1>{{item.item_name}}</h1>
+<h2>Owned by Company</h2>
+<h3>Orefox</h3>
+
+<form action="" method="POST" >{% csrf_token %}
+    <select id="Organisation" name="Organisation">
+        {% for column in company_names %}
+        <option name="Organisation" value={{column}}>{{column}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Share file">
+</form>
+
+</body>
+</html>

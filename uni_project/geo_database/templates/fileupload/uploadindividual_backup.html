@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Single File</title>
+</head>
+<body>
+{{success}}
+<form action="/upload/file" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <!-- upload stuff here -->
+
+    <input type="text" id="filename" name="filename" value="Document_1" />
+    <input type="file" id="file" name="myFile" />
+    <input type="text" id="address" name="address" />
+    <label for="address" name="address">Address</label>
+    <input type="submit" value="submit file" />
+</form>
+</body>
+</html>

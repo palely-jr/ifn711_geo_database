@@ -1,0 +1,45 @@
+{% load static %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+<link href="{% static 'upload/upload.css' %}" rel="stylesheet">
+
+<div class="container center">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="white">File Upload</h1>
+			<a href="/dashboard" class="white">Home</a>
+		</div>
+	</div>
+	
+	<form name="upload" method="post" action="/upload/file" enctype="multipart/form-data" accept-charset="utf-8">{% csrf_token %}
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 center">
+				<div class="btn-container">
+					<!--the three icons: default, ok file (img), error file (not an img)-->
+					<h1 class="imgupload"><i class="fa fa-file-image-o"></i></h1>
+					<h1 class="imgupload ok"><i class="fa fa-check"></i></h1>
+					<h1 class="imgupload stop"><i class="fa fa-times"></i></h1>
+					<p id="namefile">Only files and zip allowed! (pdf,doc,docx,pdf,zip)</p>
+					<br><label for="filename" name="filename">File Name:</label>
+					<input type="text" id="filename" name="filename" value="Document_1" /></br>
+					<br><label for="address" name="address">Address:</label>
+					<input type="textbox" id="address" name="address" /></br></br>                  
+					<input type="file" id="file" name="myFile"  class="btn btn-primary btn-lg">Browse for your file!</input>
+				</div>
+			</div>
+		</div>
+			<!--additional fields-->
+		<div class="row">			
+			<div class="col-md-10">
+				<!--the defauld disabled btn and the actual one shown only if the three fields are valid-->
+
+				 <input type="submit" class="btn btn-primary" value="submit" />
+			
+				
+			</div>
+		</div>
+	</form>
+</div>
+
+<a href="http://www.emilianocostanzo.com" target="_blank" id="sign">EMI</a>
+<script src="{% static 'upload/upload.js' %}"></script>

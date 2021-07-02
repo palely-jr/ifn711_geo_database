@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Remove Share</title>
+</head>
+<body>
+<form action="/share/remove/{{item_id}}/{{company_name}}/" method="POST">{% csrf_token %}
+    <input type="submit" value="Unshare this file">
+</form>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <form action="/register" method="POST">{% csrf_token %}
+
+      <!-- we need, name, dob, email and password!-->
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" value="jesse.studin" autofocus>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Enter Name">
+
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" name="dob">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="Enter Email">
+      <label for="passwordOne">Enter Password one</label>
+      <input type="password" id="passwordOne" name="passwordOne" value="123456789">
+      <input type="submit" value="Register Form">
+  </form>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+<link href="C:\Users\Eric Diender\Documents\Abhi\project\env\gitproject\ifn711_geo_database\uni_project\geo_database\templates\fileupload\upload\upload.css" rel="stylesheet">
+
+<div class="container center">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="white">File Upload</h1>
+			
+		</div>
+	</div>
+	
+	<form name="upload" method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 center">
+				<div class="btn-container">
+					<!--the three icons: default, ok file (img), error file (not an img)-->
+					<h1 class="imgupload"><i class="fa fa-file-image-o"></i></h1>
+					<h1 class="imgupload ok"><i class="fa fa-check"></i></h1>
+					<h1 class="imgupload stop"><i class="fa fa-times"></i></h1>
+					<!--this field changes dinamically displaying the filename we are trying to upload-->
+					<p id="namefile">Only files and zip allowed! (pdf,doc,docx,pdf,zip)</p>
+					<!--our custom btn which which stays under the actual one-->
+					<br><label for="address" name="address">Address</label>
+					<input type="textbox" id="address" name="address" /></br></br>                  
+					<input type="file" id="file" name="myFile"  class="btn btn-primary btn-lg">Browse for your file!</input>
+				</div>
+			</div>
+		</div>
+			<!--additional fields-->
+		<div class="row">			
+			<div class="col-md-10">
+				<!--the defauld disabled btn and the actual one shown only if the three fields are valid-->
+
+				 <input type="submit" class="btn btn-primary" value="submit" />
+			
+				
+			</div>
+		</div>
+	</form>
+</div>
+
+<a href="http://www.emilianocostanzo.com" target="_blank" id="sign">EMI</a>
+<script src="C:\Users\Eric Diender\Documents\Abhi\project\env\gitproject\ifn711_geo_database\uni_project\geo_database\templates\fileupload\uploadupload.js"></script>

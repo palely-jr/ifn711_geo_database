@@ -1,0 +1,20 @@
+.nav-link a,
+a.nav-link
+
+ {
+	color: #FFBD59 !important;
+    text-decoration: none;
+}
+
+.nav-link a:hover,
+a.nav-link:hover
+{
+	color: #FC8800 !important;
+    text-decoration: none;
+}
+
+div.nav-link img {
+    height: 30px;
+    display: inline;
+    padding: 5px;
+}
